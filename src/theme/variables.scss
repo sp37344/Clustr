@@ -22,8 +22,25 @@ $app-direction: ltr;
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
+@font-face {
+	font-family: "Capriola";
+	src: url("Capriola-Regular.ttf") type("truetype");
+}
 
+@font-face {
+	font-family: "Segoe UI";
+	src: url("Segoe-UI.ttf") type("truetype");
+}
 
+* {
+	box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	font-family: "Segoe UI";
+	margin: 0;
+	padding: 0;
+}
 
 // Named Color Variables
 // --------------------------------------------------
@@ -37,6 +54,7 @@ $colors: (
   primary:    #488aff,
   secondary:  #ff3e73,
   tertiary:   #ffd83e,
+  white:      #fff,
   light:      #c5c5c5,
   mid:		  #777,
   dark:       #444,
