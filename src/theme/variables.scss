@@ -61,6 +61,10 @@ $colors: (
   facebook:   #3b5998
 );
 
+$tabs-background: color($colors, primary);
+$tabs-md-tab-color-active: color($colors, white);
+$tabs-md-tab-color-inactive: color($colors, white);
+$tabs-md-tab-icon-size: 3rem;
 
 // App iOS Variables
 // --------------------------------------------------
