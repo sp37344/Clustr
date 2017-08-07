@@ -1,0 +1,9 @@
+page-tabs {
+	.tabs {
+		background-color: map-get($colors, primary);
+	}
+
+	ion-tab {
+		color: #fff;
+	}
+}
