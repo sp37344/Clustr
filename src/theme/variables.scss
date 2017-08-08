@@ -42,6 +42,30 @@ h1, h2, h3, h4, h5, h6, p {
 	padding: 0;
 }
 
+.ion-md-profile {
+	content: url("../assets/icon/icon_profile.png");
+	width: 20px;
+	height: auto;
+}
+
+.ion-md-map {
+	content: url("../assets/icon/icon_map.png");
+	width: 20px;
+	height: auto;
+}
+
+.ion-md-message {
+	content: url("../assets/icon/icon_message.png");
+	width: 20px;
+	height: auto;
+}
+
+.ion-md-friends {
+	content: url("../assets/icon/icon_friends.png");
+	width: 20px;
+	height: auto;
+}
+
 // Named Color Variables
 // --------------------------------------------------
 // Named colors makes it easy to reuse colors on various components.
