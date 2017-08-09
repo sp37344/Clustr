@@ -1,26 +1,38 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# Clustr
 
-## How to use this template
+This project is built using the [Ionic framework](http://ionicframework.com/docs).
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+## IMPORTANT: Using the Clustr API
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
+During development, in order for the API function calls to work, add and enable the [Allow-Control-Allow-Origin: *](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en) Chrome extension to your browser. This is needed for cross-origin resource sharing (CORS), as the front-end and back-end of the project are hosted on different servers.
 
-### With the Ionic CLI:
+### Dependencies
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
-
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start myBlank blank
-```
-
-Then, to run it, cd into `myBlank` and run:
+This project has several dependencies (including bluebird, express, jade), so please be sure to install the dependencies in the root folder of the project.
 
 ```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
+$ npm install
 ```
 
-Substitute ios for android if not on a Mac.
+### Running the Ionic project
 
+On web, serve the Ionic project in the browser. Run the `ionic serve` command in the root folder. You can then run the project in `http://localhost:8100/`.
+
+```bash
+$ ionic serve
+```
+
+To run on an Android device (note that this project is developed for Android), run the following commands in the root folder:
+
+```bash
+$ ionic cordova platform add android
+$ ionic cordova run android
+```
+
+### Testing the API using ExpressJS
+
+Run npm install in the root folder to install the Express dependency. Run the `npm start` command in the root folder. You can then test the API endpoints in `http://localhost:3000/`.
+
+```bash
+$ npm start
+```
