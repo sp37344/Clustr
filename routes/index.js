@@ -5,6 +5,7 @@ var userDb = require('../api/users');
 
 router.get('/api/clustr/users', userDb.getAllUsers);
 router.get('/api/clustr/users/:id', userDb.getUser);
+// router.get('/api/clustr/users/:id', userDb.updateStatus);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

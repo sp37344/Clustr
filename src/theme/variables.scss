@@ -93,14 +93,17 @@ h1, h2, h3, h4, h5, h6, p {
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #3eacff,
-  secondary:  #ff3e73,
-  tertiary:   #ffd83e,
-  white:      #fff,
-  light:      #c5c5c5,
-  mid:		  #777,
-  dark:       #444,
-  facebook:   #3b5998
+  primary:        #3eacff,
+  primary-active: #0793f7,
+  secondary:      #ff3e73,
+  tertiary:       #ffd83e,
+  white:          #fff,
+  white-active:   #ddd,
+  light:          #c5c5c5,
+  light-active:   #a5a5a5,
+  mid:		      #777,
+  dark:           #444,
+  facebook:       #3b5998
 );
 
 // Tabs Page
@@ -109,13 +112,120 @@ $tabs-md-tab-color-active: color($colors, white);
 $tabs-md-tab-color-inactive: color($colors, white);
 $tabs-md-tab-icon-size: 3rem;
 
+// Modal
+.modal {
+	z-index: 1000;
+	width: 80%;
+	display: inline-block;
+	position: relative;
+	top: 50%;
+	transform: translateY(-65%);
+}
+
+.modal__body {
+	width: 100%;
+	border-radius: 15px 15px 0 0;
+	background-color: #fff;
+}
+
+.modal__body__item {
+	background-color: transparent;
+	padding: 15px 20px;
+	width: 100%;
+	border-bottom: 1px solid map-get($colors, light);
+	transition: all 0.5s ease;
+}
+
+.modal__body__item:active {
+	background-color: linear-gradient(to top, rgba(0, 13, 221, 1), rgba(0, 13, 221, 0));
+}
+
+.modal__body__item--last {
+	border-bottom: none;
+}
+
+.modal__body__item__icon {
+	width: 20%;
+	float: left;
+}
+
+.modal__body__item__text {
+	text-align: left;
+	width: 70%;
+	float: left;
+}
+
+.modal__body__item__checkbox {
+	width: 10%;
+	float: left;
+}
+
+.modal__body__item__checkbox img {
+	position: relative;
+	transform: translateY(3px);
+}
+
+.modal__body__buttons {
+	width: 100%;
+}
+
+.modal__body__buttons__button {
+	padding: 15px 20px;
+	width: 100%;
+	text-align: center;
+	background-color: color($colors, light);
+	border-radius: 0 0 15px 15px;
+	transition: all 0.5s ease;
+}
+
+.modal__body__buttons__button:active {
+	background-color: color($colors, light-active);
+}
+
+.modal__body__buttons__button--primary {
+	background-color: color($colors, primary);
+}
+
+.modal__body__buttons__button--primary:active {
+	background-color: color($colors, primary-active);
+}
+
+.modal__body__buttons__button--left {
+	border-radius: 0 0 0 15px;
+	float: left;
+	width: 50%;
+}
+
+.modal__body__buttons__button--right {
+	border-radius: 0 0 15px 0;
+	float: left;
+	width: 50%;
+}
+
+.modal__body__buttons__button p {
+	text-transform: uppercase;
+	color: #fff;
+}
+
+// Lightbox
+.lightbox {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 500;
+	position: fixed;
+	text-align: center;
+}
+
 // Status Button
-.status-button__container {
+.status-button {
 	width: 34px;
 	height: 34px;
 }
 
-.status-button__container__outer {
+.status-button__outer {
 	width: 100%;
 	height: 100%;
 	background-color: color($colors, light);
@@ -123,7 +233,7 @@ $tabs-md-tab-icon-size: 3rem;
 	text-align: center;
 }
 
-.status-button__container__outer__mid {
+.status-button__outer__mid {
 	width: 26px;
 	height: 26px;
 	background-color: #fff;
@@ -135,16 +245,28 @@ $tabs-md-tab-icon-size: 3rem;
 	text-align: center;
 }
 
-.status-button__container__outer__mid__inner {
+.status-button__outer__mid__inner {
 	width: 20px;
 	height: 20px;
-	background-color: color($colors, primary);
 	border-radius: 100%;
 	display: inline-block;
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
 }
+
+.status-button__outer__mid__inner--available {
+	background-color: color($colors, primary);
+}
+
+.status-button__outer__mid__inner--busy {
+	background-color: color($colors, tertiary);
+}
+
+.status-button__outer__mid__inner--invisible {
+	background-color: color($colors, light);
+}
+
 
 // App iOS Variables
 // --------------------------------------------------

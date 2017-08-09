@@ -53,6 +53,7 @@ page-profile {
 		border: 1px solid map-get($colors, mid);
 		border-radius: 15px;
 		padding: 20px;
+		transition: all 0.5s ease;
 	}
 
 	.profile__body__container__icon {

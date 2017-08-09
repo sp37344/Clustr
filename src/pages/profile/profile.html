@@ -1,3 +1,69 @@
+<div *ngIf="isModalVisible" class="lightbox">
+	<div *ngIf="isModalVisible" class="modal">
+		<div class="modal__body">
+			<div (click)="selectStatus('available')" class="modal__body__item clearfix">
+				<div class="modal__body__item__icon">
+					<div class="status-button">
+						<div class="status-button__outer">
+							<div class="status-button__outer__mid">
+								<div class="status-button__outer__mid__inner status-button__outer__mid__inner--available"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal__body__item__text">
+					<p>Available</p>
+				</div>
+				<div class="modal__body__item__checkbox">
+					<img *ngIf="isAvailableSelected" src="assets/icon/icon_check.png"/>
+				</div>
+			</div>
+			<div (click)="selectStatus('busy')" class="modal__body__item clearfix">
+				<div class="modal__body__item__icon">
+					<div class="status-button">
+						<div class="status-button__outer">
+							<div class="status-button__outer__mid">
+								<div class="status-button__outer__mid__inner status-button__outer__mid__inner--busy"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal__body__item__text">
+					<p>Busy</p>
+				</div>
+				<div class="modal__body__item__checkbox">
+					<img *ngIf="isBusySelected" src="assets/icon/icon_check.png"/>
+				</div>
+			</div>
+			<div (click)="selectStatus('invisible')" class="modal__body__item modal__body__item--last clearfix">
+				<div class="modal__body__item__icon">
+					<div class="status-button">
+						<div class="status-button__outer">
+							<div class="status-button__outer__mid">
+								<div class="status-button__outer__mid__inner status-button__outer__mid__inner--invisible"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal__body__item__text">
+					<p>Invisible</p>
+				</div>
+				<div class="modal__body__item__checkbox">
+					<img *ngIf="isInvisibleSelected" src="assets/icon/icon_check.png"/>
+				</div>
+			</div>
+		</div>
+		<div class="modal__body__buttons clearfix">
+			<div (click)="hideStatusModal()" class="modal__body__buttons__button modal__body__buttons__button--left">
+				<p>Cancel</p>
+			</div>
+			<div class="modal__body__buttons__button modal__body__buttons__button--primary modal__body__buttons__button--right">
+				<p>Update</p>
+			</div>
+		</div>
+	</div>
+</div>
+
 <ion-content>
 	<div class="profile__header clearfix">
 		<div class="profile__header__text">
@@ -9,12 +75,14 @@
 
 	<div class="profile__body">
 		<ion-label class="profile__body__label">My Status</ion-label>
-		<div class="profile__body__container clearfix">
+		<div (click)="showStatusModal()" class="profile__body__container clearfix">
 			<div class="profile__body__container__icon">
-				<div class="status-button__container">
-					<div class="status-button__container__outer">
-						<div class="status-button__container__outer__mid">
-							<div class="status-button__container__outer__mid__inner"></div>
+				<div class="status-button">
+					<div class="status-button__outer">
+						<div class="status-button__outer__mid">
+							<div *ngIf="isAvailable" class="status-button__outer__mid__inner status-button__outer__mid__inner--available"></div>
+							<div *ngIf="isBusy" class="status-button__outer__mid__inner status-button__outer__mid__inner--busy"></div>
+							<div *ngIf="isInvisible" class="status-button__outer__mid__inner status-button__outer__mid__inner--invisible"></div>
 						</div>
 					</div>
 				</div>

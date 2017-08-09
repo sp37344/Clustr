@@ -11,52 +11,98 @@ import { Observable } from 'rxjs/Observable';
 })
 
 export class ProfilePage {
-	private headers : Headers;
+	// Initialize user object
 	private user : any;
+
+	// Variables for checking current status so that the right status shows as the selected item in the status dropdown
+	private isAvailable : boolean = false;
+	private isBusy : boolean = false;
+	private isInvisible : boolean = false;
+
+	// Toggle the modal
+	private isModalVisible : boolean = false;
+
+	// Variables for checking what option is selected in the status modal
+	private isAvailableSelected : boolean = false;
+	private isBusySelected : boolean = false;
+	private isInvisibleSelected : boolean = false;
+
+	// Hard coded for testing purposes
 	private userId = 1;
 
 	constructor(private _http: Http, private _configuration : Configuration) {
-		console.log(this._configuration.apiUrl + 'users');
-		// this.user = this._http.get(this._configuration.apiUrl + 'users').map((res : Response) => {
-		// 	console.dir(res);
-		// }).catch(this.handleError);
-
-		// var headerOptions = {
-		// 	'Content-Type' : 'application/json',
-		// 	'Accept' : 'application/json',
-		// 	'Access-Control-Allow-Headers' : 'Content-Type',
-		// 	'Access-Control-Origin' : '*'
-		// }
-		// this.headers = new Headers(headerOptions);
-
-		// this.headers = new Headers();
-		// this.headers.append('Content-Type', 'application/json');
-		// this.headers.append('Accept', 'application/json');
-		// this.headers.append('Access-Control-Allow-Headers', 'Content-Type');
-		// // this.headers.append('Access-Control-Allow-Methods', 'GET');
-		// this.headers.append('Access-Control-Origin', '*');
-
+		// Get the user's information
 		this._http.get((this._configuration.apiUrl + 'users/' + this.userId)).map(res => res.json()).subscribe(res => {
+			// Store the user's first name and last name in the user object
 			this.user = {
 				'firstName' : res.data.first_name,
 				'lastName' : res.data.last_name
 			}
 
-			switch (res.data.status) {
+			// Check what should show up as the currently selected item in the status dropdown, as well as update the user object
+			switch(res.data.status) {
 				case 'available':
 					this.user['status'] = 'Available';
+					this.isAvailable = true;
 					break;
 				case 'busy':
 					this.user['status'] = 'Busy';
+					this.isBusy = true;
 					break;
 				default:
 					this.user['status'] = 'Invisible';
+					this.isInvisible = true;
 			}
 		});
 	}
 
-	private handleError(err : any) : Promise<any> {
-		console.log('An error occurred', err);
-		return Promise.reject(err.message || err);
+	// Show status modal, where user is able to set status to available, busy, or invisible
+	showStatusModal() {
+		// Show the modal and lightbox
+		this.isModalVisible = true;
+
+		// Show a checkmark next to the option reflecting the user's current status
+		switch(this.user['status']) {
+			case 'Available':
+				this.isAvailableSelected = true;
+				break;
+			case 'Busy':
+				this.isBusySelected = true;
+				break;
+			default:
+				this.isInvisibleSelected = true;
+		}
+	};
+
+	// Hide status modal
+	hideStatusModal() {
+		// Hide the modal and lightbox
+		this.isModalVisible = false;
+
+		// Undo all checkmarks
+		this.isAvailableSelected = false;
+		this.isBusySelected = false;
+		this.isInvisibleSelected = false;
+	};
+
+	// Update GUI to reflect what option the user has selected
+	selectStatus(status) {
+		// Show checkmark next top item that has been selected; Only one checkmark can show at a time
+		switch(status) {
+			case 'available':
+				this.isAvailableSelected = true;
+				this.isBusySelected = false;
+				this.isInvisibleSelected = false;
+				break;
+			case 'busy':
+				this.isAvailableSelected = false;
+				this.isBusySelected = true;
+				this.isInvisibleSelected = false;
+				break;
+			default:
+				this.isAvailableSelected = false;
+				this.isBusySelected = false;
+				this.isInvisibleSelected = true;
+		}
 	}
 }
