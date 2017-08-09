@@ -3,6 +3,8 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { HttpModule } from '@angular/http';
+import { Configuration } from './app.config';
 
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
@@ -24,7 +26,8 @@ import { FriendsPage } from '../pages/friends/friends';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -39,6 +42,8 @@ import { FriendsPage } from '../pages/friends/friends';
   providers: [
     StatusBar,
     SplashScreen,
+    HttpModule,
+    Configuration,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

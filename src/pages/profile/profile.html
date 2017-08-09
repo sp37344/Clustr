@@ -3,7 +3,7 @@
 		<div class="profile__header__text">
 			<h1 class="profile__header__text__logo-text">clustr</h1>
 			<img class="profile__header__text__logo-img" src="assets/media/img_penguin_primary.png"/>
-			<h1 class="profile__header__text__name">Adelle Dimitui</h1>
+			<h1 class="profile__header__text__name">{{ user?.firstName }} {{ user?.lastName }}</h1>
 		</div>
 	</div>
 
@@ -20,7 +20,7 @@
 				</div>
 			</div>
 			<div class="profile__body__container__status">
-				<p>Available</p>
+				<p>{{ user?.status }}</p>
 			</div>
 			<div class="profile__body__container__down">
 				<img class="profile__body__container__down__icon" src="assets/icon/icon__down.png"/>
