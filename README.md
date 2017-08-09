@@ -12,10 +12,10 @@ This project has several dependencies (including bluebird, express, jade). Compi
 
 ### Cordova and Ionic
 
-Ionic is the hybrid app framework on which this project is being built on. Cordova is used for building apps into native projects for Android.
+Ionic is the hybrid app framework on which this project is being built on. Cordova is used for building apps into native projects for Android. Run this in the root folder of the project.
 
 ```bash
-npm install -g cordova ionic
+$ npm install -g cordova ionic
 ```
 
 ### Express Generator
