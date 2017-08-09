@@ -10,6 +10,14 @@ During development, in order for the API function calls to work, add and enable 
 
 This project has several dependencies (including bluebird, express, jade). Compiled below are the modules that should be installed in the project. Run all commands from the root folder. 
 
+### Cordova and Ionic
+
+Ionic is the hybrid app framework on which this project is being built on. Cordova is used for building apps into native projects for Android.
+
+```bash
+npm install -g cordova ionic
+```
+
 ### Express Generator
 
 ExpressJS is the web application framework for Node.js, designed for building web applications and API's. In this project, it is used to test API's.
