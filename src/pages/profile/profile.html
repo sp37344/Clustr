@@ -1,3 +1,39 @@
 <ion-content>
-	<h1>Profile Page</h1>
+	<div class="profile__header clearfix">
+		<div class="profile__header__text">
+			<h1 class="profile__header__text__logo-text">clustr</h1>
+			<img class="profile__header__text__logo-img" src="assets/media/img_penguin_primary.png"/>
+			<h1 class="profile__header__text__name">Adelle Dimitui</h1>
+		</div>
+	</div>
+
+	<div class="profile__body">
+		<ion-label class="profile__body__label">My Status</ion-label>
+		<div class="profile__body__container clearfix">
+			<div class="profile__body__container__icon">
+				<div class="status-button__container">
+					<div class="status-button__container__outer">
+						<div class="status-button__container__outer__mid">
+							<div class="status-button__container__outer__mid__inner"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="profile__body__container__status">
+				<p>Available</p>
+			</div>
+			<div class="profile__body__container__down">
+				<img class="profile__body__container__down__icon" src="assets/icon/icon__down.png"/>
+			</div>
+		</div>
+
+		<ion-label class="profile__body__label">Suggested Activities</ion-label>
+		<button ion-button class="profile__body__container__button" color="primary">Edit Activities</button>
+
+		<ion-label class="profile__body__label">Free Until</ion-label>
+		<button ion-button class="profile__body__container__button" color="light">Disable Timer</button>
+
+		<ion-label class="profile__body__label">Account Settings</ion-label>
+		<button ion-button class="profile__body__container__button" color="dark">Account Settings</button>
+	</div>
 </ion-content>

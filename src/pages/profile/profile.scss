@@ -1,3 +1,94 @@
 page-profile {
-	
+	.profile__header {
+		background-color: #e2e2e2;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 15px 20px 5px 20px;
+	}
+
+	.profile__header__text {
+		width: 60%;
+		float: left;
+	}
+
+	.profile__header__text__logo-text {
+		font-family: "Capriola";
+		color: map-get($colors, primary);
+		display: inline-block;
+	}
+
+	.profile__header__text__logo-img {
+		display: inline-block;
+		width: 25px;
+		position: relative;
+		transform: translateY(5px);
+	}
+
+	.profile__header__text__name {
+		color: map-get($colors, mid);
+		font-size: 20px;
+		margin-top: -12px;
+		font-weight: bold;
+	}
+
+	.profile__body {
+		width: 100%;
+		padding: 0px 25px;
+	}
+
+	.profile__body__label {
+		color: #95989a;
+		font-size: 18px;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-family: "Segoe UI";
+		margin: 0;
+		margin-left: 14px;
+		margin-top: 20px;
+	}
+
+	.profile__body__container {
+		width: 100%;
+		border: 1px solid map-get($colors, mid);
+		border-radius: 15px;
+		padding: 20px;
+	}
+
+	.profile__body__container__icon {
+		width: 20%;
+		float: left;
+	}
+
+	.profile__body__container__status {
+		width: 70%;
+		float: left;
+	}
+
+	p {
+		font-size: 22px;
+		color: map-get($colors, mid);
+	}
+
+	.profile__body__container__down {
+		width: 10%;
+		float: left;
+	}
+
+	.profile__body__container__down__icon {
+		position: relative;
+		transform: translateY(5px);
+	}
+
+	.profile__body__container__button {
+		box-shadow: none;
+		border-radius: 20px;
+		width: 100%;
+		text-transform: none;
+		font-family: "Segoe UI";
+		font-size: 22px;
+		font-weight: 400;
+		padding: 30px 0;
+		margin: auto;
+	}
 }

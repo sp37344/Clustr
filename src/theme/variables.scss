@@ -22,6 +22,7 @@ $app-direction: ltr;
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
+// Typefaces
 @font-face {
 	font-family: "Capriola";
 	src: url("Capriola-Regular.ttf") type("truetype");
@@ -32,6 +33,7 @@ $app-direction: ltr;
 	src: url("Segoe-UI.ttf") type("truetype");
 }
 
+// General Classes
 * {
 	box-sizing: border-box;
 }
@@ -42,6 +44,22 @@ h1, h2, h3, h4, h5, h6, p {
 	padding: 0;
 }
 
+// Clearfix Hack
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
+
+// Custom Icons 
 .ion-md-profile {
 	content: url("../assets/icon/icon_profile.png");
 	width: 20px;
@@ -75,7 +93,7 @@ h1, h2, h3, h4, h5, h6, p {
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
+  primary:    #3eacff,
   secondary:  #ff3e73,
   tertiary:   #ffd83e,
   white:      #fff,
@@ -85,10 +103,48 @@ $colors: (
   facebook:   #3b5998
 );
 
+// Tabs Page
 $tabs-background: color($colors, primary);
 $tabs-md-tab-color-active: color($colors, white);
 $tabs-md-tab-color-inactive: color($colors, white);
 $tabs-md-tab-icon-size: 3rem;
+
+// Status Button
+.status-button__container {
+	width: 34px;
+	height: 34px;
+}
+
+.status-button__container__outer {
+	width: 100%;
+	height: 100%;
+	background-color: color($colors, light);
+	border-radius: 100%;
+	text-align: center;
+}
+
+.status-button__container__outer__mid {
+	width: 26px;
+	height: 26px;
+	background-color: #fff;
+	border-radius: 100%;
+	display: inline-block;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: center;
+}
+
+.status-button__container__outer__mid__inner {
+	width: 20px;
+	height: 20px;
+	background-color: color($colors, primary);
+	border-radius: 100%;
+	display: inline-block;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
 
 // App iOS Variables
 // --------------------------------------------------
