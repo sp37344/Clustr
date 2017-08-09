@@ -32,7 +32,7 @@ export class ProfilePage {
 
 	constructor(private _http: Http, private _configuration : Configuration) {
 		// Get the user's information
-		this._http.get((this._configuration.apiUrl + 'users/' + this.userId)).map(res => res.json()).subscribe(res => {
+		this._http.get(this._configuration.apiUrl + 'users/' + this.userId).map(res => res.json()).subscribe(res => {
 			// Store the user's first name and last name in the user object
 			this.user = {
 				'firstName' : res.data.first_name,
@@ -41,11 +41,11 @@ export class ProfilePage {
 
 			// Check what should show up as the currently selected item in the status dropdown, as well as update the user object
 			switch(res.data.status) {
-				case 'available':
+				case 'Available':
 					this.user['status'] = 'Available';
 					this.isAvailable = true;
 					break;
-				case 'busy':
+				case 'Busy':
 					this.user['status'] = 'Busy';
 					this.isBusy = true;
 					break;
@@ -89,12 +89,12 @@ export class ProfilePage {
 	selectStatus(status) {
 		// Show checkmark next top item that has been selected; Only one checkmark can show at a time
 		switch(status) {
-			case 'available':
+			case 'Available':
 				this.isAvailableSelected = true;
 				this.isBusySelected = false;
 				this.isInvisibleSelected = false;
 				break;
-			case 'busy':
+			case 'Busy':
 				this.isAvailableSelected = false;
 				this.isBusySelected = true;
 				this.isInvisibleSelected = false;
@@ -104,5 +104,40 @@ export class ProfilePage {
 				this.isBusySelected = false;
 				this.isInvisibleSelected = true;
 		}
-	}
+	};
+
+	// Update status to selected status
+	updateStatus() {
+		// Update headers
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+
+		// Update body to reflected selected status and update GUI so that selected option in the dropdown is updated
+		if (this.isAvailableSelected) {
+			this.user['status'] = 'Available';
+			this.isAvailable = true;
+			this.isBusy = false;
+			this.isInvisible = false;
+		} else if (this.isBusySelected) {
+			this.user['status'] = 'Busy';
+			this.isAvailable = false;
+			this.isBusy = true;
+			this.isInvisible = false;
+		} else {
+			this.user['status'] = 'Invisible';
+			this.isAvailable = false;
+			this.isBusy = false;
+			this.isInvisible = true;
+		}
+		body = JSON.stringify(this.user);
+
+		// Call PUT endpoint to update the status of the user
+		var body = JSON.stringify(this.user);
+		this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/status', body, { headers: headers }).map(res => res.json()).subscribe(res => {
+			console.log(res);
+		})
+
+		// Close modal
+		this.isModalVisible = false;
+	};
 }
