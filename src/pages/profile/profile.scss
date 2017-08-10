@@ -112,6 +112,12 @@ page-profile {
 		border-top: 1px solid map-get($colors, light);
 	}
 
+	.profile__body__container__item__text--null {
+		text-align: center;
+		font-size: 20px;
+		line-height: 24px;
+	}
+
 	.profile__body__container__item__text--first {
 		border-top: none;
 	}

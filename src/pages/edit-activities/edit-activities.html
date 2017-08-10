@@ -1,3 +1,20 @@
+<div *ngIf="isModalVisible" class="lightbox">
+	<div *ngIf="isCreateActivityModalVisible" class="modal">
+		<div class="modal__body modal__body--singular">
+			<p>Create an activity</p>
+			<input [(ngModel)]="newActivityName" type="text" class="modal__body__input" placeholder="Your activity name here...">
+		</div>
+		<div class="modal__buttons">
+			<div (click)="hideModal()" class="modal__buttons__button modal__buttons__button--left">
+				<p>Cancel</p>
+			</div>
+			<div (click)="addActivity()" class="modal__buttons__button modal__buttons__button--primary modal__buttons__button--right">
+				<p>Add</p>
+			</div>
+		</div>
+	</div>
+</div>
+
 <ion-header class="header clearfix">
 	<div class="header__button">
 		<img (click)="goToProfilePage()" src="assets/icon/icon_back.png"/>
@@ -6,10 +23,12 @@
 		<h1 class="header__title__text">Edit Activities</h1>
 	</div>
 	<div class="header__button">
-		<img class="header__button__add" src="assets/icon/icon_plus.png"/>
+		<img (click)="createActivity()" class="header__button__add" src="assets/icon/icon_plus.png"/>
 	</div>
 </ion-header>
 
-<ion-content>
-	<button ion-item></button>
+<ion-content *ngIf="activities" class="list">
+	<div class="list__item" *ngFor="let activity of activities">
+		<p class="list__item__text">{{ activity.name }}</p>
+	</div>
 </ion-content>

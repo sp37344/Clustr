@@ -162,6 +162,28 @@ $tabs-md-tab-icon-size: 3rem;
 	background-color: #fff;
 }
 
+.modal__body--singular {
+	padding: 20px 25px;
+}
+
+.modal__body p {
+	font-size: 22px;
+	color: color($colors, dark);
+}
+
+.modal__body__input {
+	width: 100%;
+	margin: 20px 0;
+	font-size: 20px;
+	color: color($colors, dark);
+	border: none;
+	border-bottom: 2px solid color($colors, light);
+}
+
+.modal__body__input:focus {
+	border-bottom-color: color($colors, primary);
+}
+
 .modal__body__item {
 	background-color: transparent;
 	padding: 15px 20px;
@@ -199,11 +221,11 @@ $tabs-md-tab-icon-size: 3rem;
 	transform: translateY(3px);
 }
 
-.modal__body__buttons {
+.modal__buttons {
 	width: 100%;
 }
 
-.modal__body__buttons__button {
+.modal__buttons__button {
 	padding: 15px 20px;
 	width: 100%;
 	text-align: center;
@@ -212,33 +234,34 @@ $tabs-md-tab-icon-size: 3rem;
 	transition: all 0.5s ease;
 }
 
-.modal__body__buttons__button:active {
+.modal__buttons__button:active {
 	background-color: color($colors, light-active);
 }
 
-.modal__body__buttons__button--primary {
+.modal__buttons__button--primary {
 	background-color: color($colors, primary);
 }
 
-.modal__body__buttons__button--primary:active {
+.modal__buttons__button--primary:active {
 	background-color: color($colors, primary-active);
 }
 
-.modal__body__buttons__button--left {
+.modal__buttons__button--left {
 	border-radius: 0 0 0 15px;
 	float: left;
 	width: 50%;
 }
 
-.modal__body__buttons__button--right {
+.modal__buttons__button--right {
 	border-radius: 0 0 15px 0;
 	float: left;
 	width: 50%;
 }
 
-.modal__body__buttons__button p {
+.modal__buttons__button p {
+	font-size: 22px;
 	text-transform: uppercase;
-	color: #fff;
+	color: color($colors, white);
 }
 
 // Lightbox
@@ -301,6 +324,29 @@ $tabs-md-tab-icon-size: 3rem;
 	background-color: color($colors, light);
 }
 
+// List
+.list {
+	background-color: color($colors, white);
+	width: 100%;
+}
+
+.list__item {
+	width: 100%;
+	padding: 15px 25px;
+	border-bottom: 2px solid color($colors, light);
+	box-shadow: inset 0 0 0 0 color($colors, white-active);
+	transition: all 1s ease;
+}
+
+.list__item:active {
+	box-shadow: inset 450px 0 0 0 color($colors, white-active);
+}
+
+.list__item__text {
+	font-family: "Segoe UI";
+	font-size: 20px;
+	color: color($colors, dark);
+}
 
 // App iOS Variables
 // --------------------------------------------------

@@ -53,11 +53,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal__body__buttons clearfix">
-			<div (click)="hideStatusModal()" class="modal__body__buttons__button modal__body__buttons__button--left">
+		<div class="modal__buttons clearfix">
+			<div (click)="hideStatusModal()" class="modal__buttons__button modal__buttons__button--left">
 				<p>Cancel</p>
 			</div>
-			<div (click)="updateStatus()" class="modal__body__buttons__button modal__body__buttons__button--primary modal__body__buttons__button--right">
+			<div (click)="updateStatus()" class="modal__buttons__button modal__buttons__button--primary modal__buttons__button--right">
 				<p>Update</p>
 			</div>
 		</div>
@@ -97,6 +97,9 @@
 
 		<ion-label class="profile__body__label">Suggested Activities</ion-label>
 		<div class="profile__body__container profile__body__container--list">
+			<div *ngIf="areActivitiesEmpty" class="profile__body__container__item">
+				<p class="profile__body__container__item__text profile__body__container__item__text--null profile__body__container__item__text--first">You have no activities right now. Add some!</p>
+			</div>
 			<div *ngFor="let activity of activities|slice:0:activitiesLimit let i = index; first as isFirst" class="profile__body__container__item">
 				<p *ngIf="i < activitiesLimit" class="profile__body__container__item__text" [ngClass]="{ 'profile__body__container__item__text--first' : isFirst }">{{ activity.name }}</p>
 			</div>

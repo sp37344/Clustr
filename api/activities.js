@@ -18,7 +18,7 @@ var db = pgp({
 
 // Get all the activities attributed to a single user
 function getAllActivities(req, res, next) {
-	var userId = req.params.id;
+	var userId = parseInt(req.params.id);
 	db.any('select * from activities where user_id = $1', userId).then(function(data) {
 		res.status(200).json({
 			status: 'success',
@@ -30,7 +30,20 @@ function getAllActivities(req, res, next) {
 	});
 };
 
+// Add an activity to a user's suggested activities list
+function addActivity(req, res, next) {
+	db.none('insert into activities(user_id, name)' +'values(${user_id}, ${name})', req.body).then(function() {
+		res.status(200).json({
+			status: 'success',
+			message: 'Created a new activity for the user'
+		});
+	}).catch(function(err) {
+		return next(err);
+	});
+};
+
 // Export all functions
 module.exports = {
-	getAllActivities: getAllActivities
+	getAllActivities: getAllActivities,
+	addActivity: addActivity
 }

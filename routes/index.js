@@ -11,6 +11,7 @@ router.put('/api/clustr/users/:id/status', userDb.updateStatus);
 
 // Activities API
 router.get('/api/clustr/activities/:id', activitiesDb.getAllActivities);
+router.post('/api/clustr/activities/:id', activitiesDb.addActivity);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

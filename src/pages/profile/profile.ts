@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { App } from 'ionic-angular';
 import { Http, Response, Headers } from '@angular/http';
 import { Configuration } from '../../app/app.config';
+import { Events } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
@@ -32,6 +33,7 @@ export class ProfilePage {
 	private isInvisibleSelected = false;
 
 	// Variables for showing suggested activities
+	private areActivitiesEmpty = false;
 	private areAllActivitiesVisible = true;
 	private activitiesRemainder : number;
 	private activitiesLimit = 3;
@@ -42,14 +44,21 @@ export class ProfilePage {
 	// Hard coded for testing purposes
 	private userId = 1;
 
-	constructor(private _app: App, private _http: Http, private _configuration : Configuration) {
+	// Constructor
+	constructor(private _app : App, private _http : Http, private _configuration : Configuration, private _events : Events) {
+		// Subscribe for a reload of the activities array when the user presses the back button when in the Create an Activity page
+		this._events.subscribe('reloadProfileActivities', () => {
+			// Reload activities
+			this.getActivities();
+		})
+
 		// Get the user's information
 		this._http.get(this._configuration.apiUrl + 'users/' + this.userId).map(res => res.json()).subscribe(res => {
 			// Store the user's first name and last name in the user object
 			this.user = {
 				'firstName' : res.data.first_name,
 				'lastName' : res.data.last_name
-			}
+			};
 
 			// Check what should show up as the currently selected item in the status dropdown, as well as update the user object
 			switch(res.data.status) {
@@ -68,26 +77,14 @@ export class ProfilePage {
 		});
 
 		// Get the user's activities
-		this._http.get(this._configuration.apiUrl + 'activities/' + this.userId).map(res => res.json()).subscribe(res => {
-			// Store the user's activities in an array
-			this.activities = res.data;
+		this.getActivities();
+	}
 
-			// If the user's activities exceed the 3 showing in the dropdown, calculate the remainder and hide the show more option
-			if (this.activities.length > this.activitiesLimit) {
-				// Calculate remainder of activities that should be expanded
-				this.activitiesRemainder = this.activities.length - this.activitiesLimit;
-
-				// Check if there are 1 or more activities, to display the proper wording in the show more option
-				if (this.activitiesRemainder == 1) {
-					this.hasSingleActivity = true;
-				} else {
-					this.hasMultipleActivities = true;
-				}
-
-				// Show the show more option
-				this.areAllActivitiesVisible = false;
-			}
-		});
+	// Refresh activities array every time the Profile Page becomes active
+	ionViewDidEnter() {
+		console.log('Fire');
+		// Get the user's activities
+		this.getActivities();
 	}
 
 	// Show status modal, where user is able to set status to available, busy, or invisible
@@ -174,6 +171,36 @@ export class ProfilePage {
 		// Close modal
 		this.isModalVisible = false;
 	};
+
+	// Get the user's activities
+	getActivities() {
+		// Get the user's activities
+		this._http.get(this._configuration.apiUrl + 'activities/' + this.userId).map(res => res.json()).subscribe(res => {
+			// Store the user's activities in an array
+			this.activities = res.data;
+
+			// Show the empty activities message if the user has no activities
+			if (this.activities.length === 0) {
+				this.areActivitiesEmpty = true;
+			}
+
+			// If the user's activities exceed the 3 showing in the dropdown, calculate the remainder and hide the show more option
+			if (this.activities.length > this.activitiesLimit) {
+				// Calculate remainder of activities that should be expanded
+				this.activitiesRemainder = this.activities.length - this.activitiesLimit;
+
+				// Check if there are 1 or more activities, to display the proper wording in the show more option
+				if (this.activitiesRemainder == 1) {
+					this.hasSingleActivity = true;
+				} else {
+					this.hasMultipleActivities = true;
+				}
+
+				// Show the show more option
+				this.areAllActivitiesVisible = false;
+			}
+		});
+	}
 
 	// Expand and show all suggested activities
 	showAllActivities() {
