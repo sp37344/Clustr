@@ -31,6 +31,9 @@ export class EditActivitiesPage {
 	private areActivityOptionsVisible = false;
 	private activityId : number;
 
+	// Array for validating a string
+	private charArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
 	// Hard coded for testing purposes
 	private userId = 1;
 
@@ -62,33 +65,39 @@ export class EditActivitiesPage {
 
 	// Add an activity
 	addActivity() {
-		// Populate an object with the new activity parameters
-		var body = {
-			'user_id' : this.userId,
-			'name' : this.newActivityName
-		};
+		// Fire only if input is valid (the value is not null and the string is valid)
+		if (this.newActivityName != null && this.isStringValid(this.newActivityName, this.charArray)) {
+			// Eliminate whitespace from both ends of the input
+			this.newActivityName = this.newActivityName.trim();
 
-		// Create a new activity for the user using a POST function
-		this._http.post(this._configuration.apiUrl + 'activities/' + this.userId, body, { headers : this.headers }).map(res => res.json()).subscribe(res => {
-			// Print success message
-			console.log(res);
+			// Populate an object with the new activity parameters
+			var body = {
+				'user_id' : this.userId,
+				'name' : this.newActivityName
+			};
 
-			// Add most recently added item to the activities array so that the array updates in the GUI
-			var tempActivity;
-			this._http.get(this._configuration.apiUrl + 'activities/' + this.userId).map(res => res.json()).subscribe(res => {
-				// Update the array
-				tempActivity = res.data[res.data.length - 1];
-				console.log(tempActivity);
-				this.activities.push(tempActivity);
+			// Create a new activity for the user using a POST function
+			this._http.post(this._configuration.apiUrl + 'activities/' + this.userId, body, { headers : this.headers }).map(res => res.json()).subscribe(res => {
+				// Print success message
+				console.log(res);
+
+				// Add most recently added item to the activities array so that the array updates in the GUI
+				var tempActivity;
+				this._http.get(this._configuration.apiUrl + 'activities/' + this.userId).map(res => res.json()).subscribe(res => {
+					// Update the array
+					tempActivity = res.data[res.data.length - 1];
+					console.log(tempActivity);
+					this.activities.push(tempActivity);
+				});
 			});
-		});
 
-		// Clear input
-		this.newActivityName = "";
+			// Clear input
+			this.newActivityName = "";
 
-		// Hide the Create an Activity modal
-		this.isModalVisible = false;
-		this.isCreateActivityModalVisible = false;
+			// Hide the Create an Activity modal
+			this.isModalVisible = false;
+			this.isCreateActivityModalVisible = false;
+		}
 	};
 
 	// Edit an activity
@@ -109,27 +118,36 @@ export class EditActivitiesPage {
 
 	// Submit edited activity name to the database
 	updateActivity() {
-		// Track the index of the appropriate activity in the activities array
-		var index : number;
-		for (var i = 0; i < this.activities.length; i++) {
-			if (this.activities[i].id == this.activityId) {
-				index = i;
-				break;
+		// Fire only if input is valid (the value is not null and the string is valid)
+		if (this.editedActivityName != null && this.isStringValid(this.editedActivityName, this.charArray)) {
+			// Eliminate whitespace from both ends of the input
+			this.editedActivityName = this.editedActivityName.trim();
+
+			// Track the index of the appropriate activity in the activities array
+			var index : number;
+			for (var i = 0; i < this.activities.length; i++) {
+				if (this.activities[i].id == this.activityId) {
+					index = i;
+					break;
+				}
 			}
+
+			// Only change the name and make an HTTP request if the original and edited activity names are not the same
+			if (this.activities[index].name != this.editedActivityName) {
+				// Change the name of the appropriate activity
+				this.activities[index].name = this.editedActivityName;
+
+				// Change the name of the activity in the database using a POST function
+				var body = JSON.stringify(this.activities[index]);
+				this._http.put(this._configuration.apiUrl + 'activities/' + this.activityId, body, { headers: this.headers }).map(res => res.json()).subscribe(res => {
+					console.log(res);
+				});
+			}			
+
+			// Hide the Edit Activity modal
+			this.isEditActivityModalVisible = false;
+			this.isModalVisible = false;
 		}
-
-		// Change the name of the appropriate activity
-		this.activities[index].name = this.editedActivityName;
-
-		// Change the name of the activity in the database using a POST function
-		var body = JSON.stringify(this.activities[index]);
-		this._http.put(this._configuration.apiUrl + 'activities/' + this.activityId, body, { headers: this.headers }).map(res => res.json()).subscribe(res => {
-			console.log(res);
-		});
-
-		// Hide the Edit Activity modal
-		this.isEditActivityModalVisible = false;
-		this.isModalVisible = false;
 	};
 
 	// Delete an activity
@@ -183,6 +201,31 @@ export class EditActivitiesPage {
 			this.isEditActivityModalVisible = false;
 		}
 	};
+
+	// Check if the string is valid -- in other words, if it contains letters
+	isStringValid(input, charArray) {
+		// Check if the input is nul
+		if (input != null) {
+			// Transform all characters to lowercase for case insensitive comparison
+			var inputString = input.toLowerCase();
+
+			// See if the input string contains letters in an array containing the alphabet
+			for (var i = 0; i < inputString.length; i++) {
+				for (var j = 0; j < charArray.length; j++) {
+					if (inputString[i] == charArray[j]) {
+						// Return true
+						return true;
+					}
+				}
+			}
+
+			// Return false
+			return false;
+		} else {
+			// Return false
+			return false;
+		}
+	}
 
 	// Go to Profile Page
 	goToProfilePage() {
