@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { App } from 'ionic-angular';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { Configuration } from '../../app/app.config';
 import { Events } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Observable } from 'rxjs/Observable';
 
 @Component ({
 	selector: 'page-edit-activities',
