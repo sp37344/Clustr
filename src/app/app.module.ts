@@ -10,6 +10,7 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ProfilePage } from '../pages/profile/profile';
+import { EditActivitiesPage } from '../pages/edit-activities/edit-activities';
 import { MapPage } from '../pages/map/map';
 import { MessagesPage } from '../pages/messages/messages';
 import { FriendsPage } from '../pages/friends/friends';
@@ -20,6 +21,7 @@ import { FriendsPage } from '../pages/friends/friends';
     LoginPage,
     TabsPage,
     ProfilePage,
+    EditActivitiesPage,
     MapPage,
     MessagesPage,
     FriendsPage
@@ -35,6 +37,7 @@ import { FriendsPage } from '../pages/friends/friends';
     LoginPage,
     TabsPage,
     ProfilePage,
+    EditActivitiesPage,
     MapPage,
     MessagesPage,
     FriendsPage

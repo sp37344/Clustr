@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { App } from 'ionic-angular';
 import { Http, Response, Headers } from '@angular/http';
 import { Configuration } from '../../app/app.config';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
+
+import { EditActivitiesPage } from '../edit-activities/edit-activities';
 
 @Component({
 	selector: 'page-profile',
@@ -39,7 +42,7 @@ export class ProfilePage {
 	// Hard coded for testing purposes
 	private userId = 1;
 
-	constructor(private _http: Http, private _configuration : Configuration) {
+	constructor(private _app: App, private _http: Http, private _configuration : Configuration) {
 		// Get the user's information
 		this._http.get(this._configuration.apiUrl + 'users/' + this.userId).map(res => res.json()).subscribe(res => {
 			// Store the user's first name and last name in the user object
@@ -191,4 +194,10 @@ export class ProfilePage {
 		this.areAllActivitiesVisible = false;
 		this.areActivitiesCollapsible = false;
 	}
+
+	// Go to the Edit Activities Page
+	goToEditActivitiesPage() {
+		// Navigate to the Edit Activities Page
+		this._app.getRootNav().push(EditActivitiesPage);
+	};
 }

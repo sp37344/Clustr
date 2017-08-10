@@ -112,6 +112,40 @@ $tabs-md-tab-color-active: color($colors, white);
 $tabs-md-tab-color-inactive: color($colors, white);
 $tabs-md-tab-icon-size: 3rem;
 
+// Header
+.header {
+	background-color: color($colors, primary);
+	padding: 15px 0;
+}
+
+.header__button {
+	width: 15%;
+	float: left;
+	text-align: center;
+}
+
+.header__button img {
+	width: 30px;
+	height: auto;
+}
+
+.header__title {
+	width: 70%;
+	float: left;
+	text-align: center;
+	margin: 0;
+}
+
+.header__title__text {
+	font-family: "Segoe UI";
+	font-weight: 400;
+	color: color($colors, white);
+	font-size: 28px;
+	margin: 0;
+	position: relative;
+	transform: translateY(-2px);
+}
+
 // Modal
 .modal {
 	z-index: 1000;

@@ -91,7 +91,7 @@
 				<p>{{ user?.status }}</p>
 			</div>
 			<div class="profile__body__container__down">
-				<img class="profile__body__container__down__icon" src="assets/icon/icon__down.png"/>
+				<img class="profile__body__container__down__icon" src="assets/icon/icon_down.png"/>
 			</div>
 		</div>
 
@@ -107,7 +107,7 @@
 				<h3 (click)="collapseActivities()">see less activities</h3>
 			</div>
 		</div>
-		<button ion-button class="profile__body__container__button" color="primary">Edit Activities</button>
+		<button ion-button (click)="goToEditActivitiesPage()" class="profile__body__container__button" color="primary">Edit Activities</button>
 
 		<ion-label class="profile__body__label">Free Until</ion-label>
 		<button ion-button class="profile__body__container__button" color="light">Disable Timer</button>
