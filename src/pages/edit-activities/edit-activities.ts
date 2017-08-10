@@ -26,6 +26,10 @@ export class EditActivitiesPage {
 	// Values to store input entered into the modals
 	private newActivityName : string;
 
+	// Value for editing or deleting a particular activity
+	private areActivityOptionsVisible = false;
+	private activityId : number;
+
 	// Hard coded for testing purposes
 	private userId = 1;
 
@@ -63,13 +67,20 @@ export class EditActivitiesPage {
 			'name' : this.newActivityName
 		};
 
-		// Create a new activity for the user using the POST function
+		// Create a new activity for the user using a POST function
 		this._http.post(this._configuration.apiUrl + 'activities/' + this.userId, body, { headers : this.headers }).map(res => res.json()).subscribe(res => {
+			// Print success message
 			console.log(res);
-		});
 
-		// Add new item to the activities array so that the array updates in the GUI
-		this.activities.push(body);
+			// Add most recently added item to the activities array so that the array updates in the GUI
+			var tempActivity;
+			this._http.get(this._configuration.apiUrl + 'activities/' + this.userId).map(res => res.json()).subscribe(res => {
+				// Update the array
+				tempActivity = res.data[res.data.length - 1];
+				console.log(tempActivity);
+				this.activities.push(tempActivity);
+			});
+		});
 
 		// Clear input
 		this.newActivityName = "";
@@ -77,6 +88,48 @@ export class EditActivitiesPage {
 		// Hide the Create an Activity modal
 		this.isModalVisible = false;
 		this.isCreateActivityModalVisible = false;
+	};
+
+	// Edit an activity
+	editActivity() {
+
+	};
+
+	// Delete an activity
+	deleteActivity() {
+		// Delete an activity from the user's suggested activities list using a DELETE function
+		this._http.delete(this._configuration.apiUrl + 'activities/' + this.activityId).map(res => res.json()).subscribe(res => {
+			// Print success message
+			console.log(res);
+
+			// Delete the activity from the activities array to update GUI
+			for (var i = 0; i < this.activities.length; i++) {
+				if (this.activities[i].id == this.activityId) {
+					this.activities.splice(i, 1);
+				}
+			}
+		});
+
+		// Hide the Acitivity Options modal
+		this.areActivityOptionsVisible = false;
+		this.isModalVisible = false;
+	}
+
+	// Show options to edit and delete an activity
+	showActivityOptions(id) {
+		// Store the id of the selected activity
+		this.activityId = id;
+
+		// Show the options to edit or delete an activity
+		this.isModalVisible = true;
+		this.areActivityOptionsVisible = true;
+	};
+
+	// Hide options to edit and delete an activity
+	hideActivityOptions() {
+		// Hide options
+		this.areActivityOptionsVisible = false;
+		this.isModalVisible = false;
 	};
 
 	// Hide the modal

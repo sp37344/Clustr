@@ -41,19 +41,19 @@ function getUser(req, res, next) {
 	}).catch(function(err) {
 		return next(err);
 	});
-}
+};
 
 // Update a single user's status
 function updateStatus(req, res, next) {
-	db.none('update users set status=$1 where id=$2', [req.body.status, req.params.id]).then(function() {
+	db.none('update users set status=$1 where id=$2', [req.body.status, parseInt(req.params.id)]).then(function() {
 		res.status(200).json({
 			status: 'success',
 			message: 'Updated user'
 		});
-	}).catch(function (err) {
+	}).catch(function(err) {
 		return next(err);
 	})
-}
+};
 
 // Export all functions
 module.exports = {

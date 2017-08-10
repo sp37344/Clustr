@@ -13,6 +13,18 @@
 			</div>
 		</div>
 	</div>
+
+	<div *ngIf="areActivityOptionsVisible" class="menu">
+		<button class="menu__button menu__button--primary">
+			<p (click)="editActivity()">Edit</p>
+		</button>
+		<button class="menu__button menu__button--primary">
+			<p (click)="deleteActivity()">Delete</p>
+		</button>
+		<button class="menu__button">
+			<p (click)="hideActivityOptions()">Cancel</p>
+		</button>
+	</div>
 </div>
 
 <ion-header class="header clearfix">
@@ -28,7 +40,7 @@
 </ion-header>
 
 <ion-content *ngIf="activities" class="list">
-	<div class="list__item" *ngFor="let activity of activities">
-		<p class="list__item__text">{{ activity.name }}</p>
+	<div class="list__item" *ngFor="let activity of activities; let i = index">
+		<p (click)="showActivityOptions(activity.id)" class="list__item__text">{{ activity.name }}</p>
 	</div>
 </ion-content>

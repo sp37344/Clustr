@@ -82,7 +82,6 @@ export class ProfilePage {
 
 	// Refresh activities array every time the Profile Page becomes active
 	ionViewDidEnter() {
-		console.log('Fire');
 		// Get the user's activities
 		this.getActivities();
 	}
@@ -194,12 +193,20 @@ export class ProfilePage {
 				// Check if there are 1 or more activities, to display the proper wording in the show more option
 				if (this.activitiesRemainder == 1) {
 					this.hasSingleActivity = true;
+					this.hasMultipleActivities = false;
 				} else {
+					this.hasSingleActivity = false;
 					this.hasMultipleActivities = true;
 				}
 
 				// Show the show more option
 				this.areAllActivitiesVisible = false;
+			} else {
+				// Do not show see more activities option if the activites do not exceed the limit of 3
+				this.areAllActivitiesVisible = true;
+				this.activitiesRemainder = 0;
+				this.hasSingleActivity = false;
+				this.hasMultipleActivities = false;
 			}
 		});
 	}

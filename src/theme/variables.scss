@@ -276,6 +276,46 @@ $tabs-md-tab-icon-size: 3rem;
 	text-align: center;
 }
 
+// Menu
+.menu {
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	padding: 0 25px 30px 25px;
+}
+
+.menu__button {
+	width: 100%;
+	border-radius: 15px;
+	padding: 15px 0;
+	margin-top: 10px;
+	background-color: color($colors, white);
+	transition: all 0.5s ease;
+}
+
+.menu__button:active {
+	background-color: color($colors, white-active);
+}
+
+.menu__button p {
+	font-size: 22px;
+	font-family: "Segoe UI";
+	color: color($colors, dark);
+	font-weight: 400;
+}
+
+.menu__button--primary {
+	background-color: color($colors, primary);
+}
+
+.menu__button--primary:active {
+	background-color: color($colors, primary-active);
+}
+
+.menu__button--primary p {
+	color: color($colors, white);
+}
+
 // Status Button
 .status-button {
 	width: 34px;

@@ -42,8 +42,35 @@ function addActivity(req, res, next) {
 	});
 };
 
+// Edit an activity in the user's suggested activities list
+function editActivity(req, res, next) {
+	db.none('update activities set name=$1 where id=$2', [req.body.name, parseInt(req.params.id)]).then(function() {
+		res.status(200).json({
+			status: 'success',
+			message: 'Updated activity'
+		});
+	}).catch(function(err) {
+		return next(err);
+	})
+};
+
+// Delete an activity from a user's suggested activities list
+function deleteActivity(req, res, next) {
+	var activityId = parseInt(req.params.id);
+	db.result('delete from activities where id = $1', activityId).then(function(result) {
+		res.status(200).json({
+			status: 'success',
+			message: `Removed ${result.rowCount} activity`
+		});
+	}).catch(function(err) {
+		return next(err);
+	});
+};
+
 // Export all functions
 module.exports = {
 	getAllActivities: getAllActivities,
-	addActivity: addActivity
+	addActivity: addActivity,
+	editActivity: editActivity,
+	deleteActivity: deleteActivity
 }
