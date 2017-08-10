@@ -182,6 +182,8 @@ export class ProfilePage {
 			// Show the empty activities message if the user has no activities
 			if (this.activities.length === 0) {
 				this.areActivitiesEmpty = true;
+			} else {
+				this.areActivitiesEmpty = false;
 			}
 
 			// If the user's activities exceed the 3 showing in the dropdown, calculate the remainder and hide the show more option

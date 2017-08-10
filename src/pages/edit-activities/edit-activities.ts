@@ -71,6 +71,9 @@ export class EditActivitiesPage {
 		// Add new item to the activities array so that the array updates in the GUI
 		this.activities.push(body);
 
+		// Clear input
+		this.newActivityName = "";
+
 		// Hide the Create an Activity modal
 		this.isModalVisible = false;
 		this.isCreateActivityModalVisible = false;
@@ -80,7 +83,12 @@ export class EditActivitiesPage {
 	hideModal() {
 		// Hide whatever modal is visible
 		this.isModalVisible = false;
-		this.isCreateActivityModalVisible = false;
+
+		// Clear input from the appropriate modal
+		if (this.isCreateActivityModalVisible) {
+			this.newActivityName = "";
+			this.isCreateActivityModalVisible = false;
+		}
 	}
 
 	// Go to Profile Page
