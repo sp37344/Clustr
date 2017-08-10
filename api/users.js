@@ -6,7 +6,6 @@ var options = {
 }
 
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://localhost:5432/kittens';
 var db = pgp({
 	host: 'localhost',
 	port: 5432,

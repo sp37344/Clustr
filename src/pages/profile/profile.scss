@@ -96,5 +96,44 @@ page-profile {
 		font-weight: 400;
 		padding: 30px 0;
 		margin: auto;
+		margin-top: 5px;
+	}
+
+	.profile__body__container--list {
+		padding: 0;
+	}
+
+	.profile__body__container__item {
+		width: 100%;
+	}
+
+	.profile__body__container__item__text {
+		padding: 15px 20px;
+		border-top: 1px solid map-get($colors, light);
+	}
+
+	.profile__body__container__item__text--first {
+		border-top: none;
+	}
+
+	.profile__body__container__expand {
+		text-align: center;
+		width: 100%;
+		border-top: 1px solid map-get($colors, light);
+	}
+
+	.profile__body__container__expand img {
+		display: inline-block;
+		margin-right: 5px;
+	}
+
+	.profile__body__container__expand h3 {
+		text-align: center;
+		display: inline-block;
+		color: map-get($colors, mid);
+		font-size: 18px;
+		position: relative;
+		font-weight: bold;
+		transform: translateY(-6px);
 	}
 }

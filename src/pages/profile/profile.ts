@@ -13,19 +13,28 @@ import { Observable } from 'rxjs/Observable';
 export class ProfilePage {
 	// Initialize user object
 	private user : any;
+	private activities : Array<any> = [];
 
 	// Variables for checking current status so that the right status shows as the selected item in the status dropdown
-	private isAvailable : boolean = false;
-	private isBusy : boolean = false;
-	private isInvisible : boolean = false;
+	private isAvailable = false;
+	private isBusy = false;
+	private isInvisible = false;
 
 	// Toggle the modal
-	private isModalVisible : boolean = false;
+	private isModalVisible = false;
 
 	// Variables for checking what option is selected in the status modal
-	private isAvailableSelected : boolean = false;
-	private isBusySelected : boolean = false;
-	private isInvisibleSelected : boolean = false;
+	private isAvailableSelected = false;
+	private isBusySelected = false;
+	private isInvisibleSelected = false;
+
+	// Variables for showing suggested activities
+	private areAllActivitiesVisible = true;
+	private activitiesRemainder : number;
+	private activitiesLimit = 3;
+	private hasSingleActivity = false;
+	private hasMultipleActivities = false;
+	private areActivitiesCollapsible = false;
 
 	// Hard coded for testing purposes
 	private userId = 1;
@@ -52,6 +61,28 @@ export class ProfilePage {
 				default:
 					this.user['status'] = 'Invisible';
 					this.isInvisible = true;
+			}
+		});
+
+		// Get the user's activities
+		this._http.get(this._configuration.apiUrl + 'activities/' + this.userId).map(res => res.json()).subscribe(res => {
+			// Store the user's activities in an array
+			this.activities = res.data;
+
+			// If the user's activities exceed the 3 showing in the dropdown, calculate the remainder and hide the show more option
+			if (this.activities.length > this.activitiesLimit) {
+				// Calculate remainder of activities that should be expanded
+				this.activitiesRemainder = this.activities.length - this.activitiesLimit;
+
+				// Check if there are 1 or more activities, to display the proper wording in the show more option
+				if (this.activitiesRemainder == 1) {
+					this.hasSingleActivity = true;
+				} else {
+					this.hasMultipleActivities = true;
+				}
+
+				// Show the show more option
+				this.areAllActivitiesVisible = false;
 			}
 		});
 	}
@@ -140,4 +171,24 @@ export class ProfilePage {
 		// Close modal
 		this.isModalVisible = false;
 	};
+
+	// Expand and show all suggested activities
+	showAllActivities() {
+		// Show all activities
+		this.activitiesLimit = this.activities.length;
+
+		// Hide option to expand activities and show option to collapse activities
+		this.areAllActivitiesVisible = true;
+		this.areActivitiesCollapsible = true;
+	};
+
+	// Collapse activities back to default number of activities showing
+	collapseActivities() {
+		// Collapse activities back to limit
+		this.activitiesLimit = 3;
+
+		// Show option to expand activities and hide option to collapse activities
+		this.areAllActivitiesVisible = false;
+		this.areActivitiesCollapsible = false;
+	}
 }

@@ -96,6 +96,17 @@
 		</div>
 
 		<ion-label class="profile__body__label">Suggested Activities</ion-label>
+		<div class="profile__body__container profile__body__container--list">
+			<div *ngFor="let activity of activities|slice:0:activitiesLimit let i = index; first as isFirst" class="profile__body__container__item">
+				<p *ngIf="i < activitiesLimit" class="profile__body__container__item__text" [ngClass]="{ 'profile__body__container__item__text--first' : isFirst }">{{ activity.name }}</p>
+			</div>
+			<div *ngIf="!areAllActivitiesVisible" class="profile__body__container__expand">
+				<h3 (click)="showAllActivities()">see {{ activitiesRemainder }} more <span *ngIf="hasSingleActivity">activity</span><span *ngIf="hasMultipleActivities">activities</span></h3>
+			</div>
+			<div *ngIf="areActivitiesCollapsible" class="profile__body__container__expand">
+				<h3 (click)="collapseActivities()">see less activities</h3>
+			</div>
+		</div>
 		<button ion-button class="profile__body__container__button" color="primary">Edit Activities</button>
 
 		<ion-label class="profile__body__label">Free Until</ion-label>
