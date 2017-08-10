@@ -51,7 +51,7 @@ function editActivity(req, res, next) {
 		});
 	}).catch(function(err) {
 		return next(err);
-	})
+	});
 };
 
 // Delete an activity from a user's suggested activities list

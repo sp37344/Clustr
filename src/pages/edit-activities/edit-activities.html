@@ -22,8 +22,23 @@
 			<p (click)="deleteActivity()">Delete</p>
 		</button>
 		<button class="menu__button">
-			<p (click)="hideActivityOptions()">Cancel</p>
+			<p (click)="hideModal()">Cancel</p>
 		</button>
+	</div>
+
+	<div *ngIf="isEditActivityModalVisible" class="modal">
+		<div class="modal__body modal__body--singular">
+			<p>Edit this activity</p>
+			<input [(ngModel)]="editedActivityName" type="text" class="modal__body__input" placeholder="Edited activity name here...">
+		</div>
+		<div class="modal__buttons">
+			<div (click)="hideModal()" class="modal__buttons__button modal__buttons__button--left">
+				<p>Cancel</p>
+			</div>
+			<div (click)="updateActivity()" class="modal__buttons__button modal__buttons__button--primary modal__buttons__button--right">
+				<p>Edit</p>
+			</div>
+		</div>
 	</div>
 </div>
 

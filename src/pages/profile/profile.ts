@@ -33,6 +33,7 @@ export class ProfilePage {
 	private isInvisibleSelected = false;
 
 	// Variables for showing suggested activities
+	private justEnteredView = false;
 	private areActivitiesEmpty = false;
 	private areAllActivitiesVisible = true;
 	private activitiesRemainder : number;
@@ -48,7 +49,8 @@ export class ProfilePage {
 	constructor(private _app : App, private _http : Http, private _configuration : Configuration, private _events : Events) {
 		// Subscribe for a reload of the activities array when the user presses the back button when in the Create an Activity page
 		this._events.subscribe('reloadProfileActivities', () => {
-			// Reload activities
+			// Collapse activities and reload activities
+			this.collapseActivities();
 			this.getActivities();
 		})
 
@@ -76,12 +78,6 @@ export class ProfilePage {
 			}
 		});
 
-		// Get the user's activities
-		this.getActivities();
-	}
-
-	// Refresh activities array every time the Profile Page becomes active
-	ionViewDidEnter() {
 		// Get the user's activities
 		this.getActivities();
 	}
@@ -159,13 +155,12 @@ export class ProfilePage {
 			this.isBusy = false;
 			this.isInvisible = true;
 		}
-		body = JSON.stringify(this.user);
 
 		// Call PUT endpoint to update the status of the user
 		var body = JSON.stringify(this.user);
 		this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/status', body, { headers: headers }).map(res => res.json()).subscribe(res => {
 			console.log(res);
-		})
+		});
 
 		// Close modal
 		this.isModalVisible = false;
@@ -204,7 +199,6 @@ export class ProfilePage {
 			} else {
 				// Do not show see more activities option if the activites do not exceed the limit of 3
 				this.areAllActivitiesVisible = true;
-				this.activitiesRemainder = 0;
 				this.hasSingleActivity = false;
 				this.hasMultipleActivities = false;
 			}

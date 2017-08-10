@@ -22,9 +22,11 @@ export class EditActivitiesPage {
 	// Used for showing or hiding modals
 	private isModalVisible = false;
 	private isCreateActivityModalVisible = false;
+	private isEditActivityModalVisible = false;
 
 	// Values to store input entered into the modals
 	private newActivityName : string;
+	private editedActivityName : string;
 
 	// Value for editing or deleting a particular activity
 	private areActivityOptionsVisible = false;
@@ -92,7 +94,43 @@ export class EditActivitiesPage {
 
 	// Edit an activity
 	editActivity() {
+		// Show the Edit Activity modal
+		this.isModalVisible = true;
+		this.areActivityOptionsVisible = false;
+		this.isEditActivityModalVisible = true;
 
+		// Automatically populate the input area with the current activity name
+		for (var i = 0; i < this.activities.length; i++) {
+			if (this.activities[i].id == this.activityId) {
+				this.editedActivityName = this.activities[i].name;
+				break;
+			}
+		}
+	};
+
+	// Submit edited activity name to the database
+	updateActivity() {
+		// Track the index of the appropriate activity in the activities array
+		var index : number;
+		for (var i = 0; i < this.activities.length; i++) {
+			if (this.activities[i].id == this.activityId) {
+				index = i;
+				break;
+			}
+		}
+
+		// Change the name of the appropriate activity
+		this.activities[index].name = this.editedActivityName;
+
+		// Change the name of the activity in the database using a POST function
+		var body = JSON.stringify(this.activities[index]);
+		this._http.put(this._configuration.apiUrl + 'activities/' + this.activityId, body, { headers: this.headers }).map(res => res.json()).subscribe(res => {
+			console.log(res);
+		});
+
+		// Hide the Edit Activity modal
+		this.isEditActivityModalVisible = false;
+		this.isModalVisible = false;
 	};
 
 	// Delete an activity
@@ -102,10 +140,11 @@ export class EditActivitiesPage {
 			// Print success message
 			console.log(res);
 
-			// Delete the activity from the activities array to update GUI
+			// Remove the activity from the activities array to update GUI
 			for (var i = 0; i < this.activities.length; i++) {
 				if (this.activities[i].id == this.activityId) {
 					this.activities.splice(i, 1);
+					break;
 				}
 			}
 		});
@@ -125,24 +164,26 @@ export class EditActivitiesPage {
 		this.areActivityOptionsVisible = true;
 	};
 
-	// Hide options to edit and delete an activity
-	hideActivityOptions() {
-		// Hide options
-		this.areActivityOptionsVisible = false;
-		this.isModalVisible = false;
-	};
-
 	// Hide the modal
 	hideModal() {
 		// Hide whatever modal is visible
 		this.isModalVisible = false;
 
-		// Clear input from the appropriate modal
+		// Hide the appropriate modal
 		if (this.isCreateActivityModalVisible) {
+			// Clear input from the appropriate modal
 			this.newActivityName = "";
 			this.isCreateActivityModalVisible = false;
+		} else if (this.areActivityOptionsVisible) {
+			// Hide Activity Options modal
+			this.areActivityOptionsVisible = false;
+			this.isModalVisible = false;
+		} else if (this.isEditActivityModalVisible) {
+			// Hide the Edit an Activity modal
+			this.editedActivityName = "";
+			this.isEditActivityModalVisible = false;
 		}
-	}
+	};
 
 	// Go to Profile Page
 	goToProfilePage() {
