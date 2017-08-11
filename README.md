@@ -1,6 +1,6 @@
 # Clustr
 
-This project is built using the [Ionic framework](http://ionicframework.com/docs).
+This hybrid Android app project is built using the [Ionic framework](http://ionicframework.com/docs), meaning that the front-end of the app is built using a combination of HTML, Sass, and TypeScript. The database used is PostgreSQL, and the web service used to query the database is built using NodeJS.
 
 ## IMPORTANT: Using the Clustr API
 
@@ -105,6 +105,13 @@ Additionally, change the following line stored in the **app.config.ts** file, fo
 
 ```
 public server : string = 'http://192.168.XX.XXX:3000/';
+```
+
+Then, so that PostgreSQL will allow access to a user who has the encrypted password, add the following line as the first uncommented line in your **pg_hba.conf** file (located in the **_PostgreSQL_** folder created upon installation, located in your **_Program Files_** by default).
+
+```
+# TYPE    DATABASE    USER    ADDRESS             METHOD
+host      all         all     192.168.XX.XXX/0    md5
 ```
 
 Finally, to run on an Android device (note that this project is developed for Android), enter the following commands in the root folder to build and run the app.
