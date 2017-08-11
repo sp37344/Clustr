@@ -1,5 +1,5 @@
 <div *ngIf="isModalVisible" class="lightbox">
-	<div *ngIf="isModalVisible" class="modal">
+	<div *ngIf="isStatusModalVisible" class="modal">
 		<div class="modal__body">
 			<div (click)="selectStatus('Available')" class="modal__body__item clearfix">
 				<div class="modal__body__item__icon">
@@ -54,11 +54,73 @@
 			</div>
 		</div>
 		<div class="modal__buttons clearfix">
-			<div (click)="hideStatusModal()" class="modal__buttons__button modal__buttons__button--left">
+			<div (click)="hideModal()" class="modal__buttons__button modal__buttons__button--left">
 				<p>Cancel</p>
 			</div>
 			<div (click)="updateStatus()" class="modal__buttons__button modal__buttons__button--primary modal__buttons__button--right">
 				<p>Update</p>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="isTimeModalVisible && isSelectingHour" class="time">
+		<div class="time__header clearfix">
+			<h1 class="time__header__text">Hour</h1>
+		</div>
+		<div class="time__body">
+			<div class="time__body__clock">
+				<div class="time__body__clock__selected">
+					<h2>{{ selectedTime }}</h2>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--twelve">
+					<p (click)="selectTime(12)" class="time__body__clock__circle__text">12</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--one">
+					<p (click)="selectTime(1)" class="time__body__clock__circle__text">1</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--two">
+					<p (click)="selectTime(2)" class="time__body__clock__circle__text">2</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--three">
+					<p (click)="selectTime(3)" class="time__body__clock__circle__text">3</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--four">
+					<p (click)="selectTime(4)" class="time__body__clock__circle__text">4</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--five">
+					<p (click)="selectTime(5)" class="time__body__clock__circle__text">5</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--six">
+					<p (click)="selectTime(6)" class="time__body__clock__circle__text">6</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--seven">
+					<p (click)="selectTime(7)" class="time__body__clock__circle__text">7</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--eight">
+					<p (click)="selectTime(8)" class="time__body__clock__circle__text">8</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--nine">
+					<p (click)="selectTime(9)" class="time__body__clock__circle__text">9</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--ten">
+					<p (click)="selectTime(10)" class="time__body__clock__circle__text">10</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--eleven">
+					<p (click)="selectTime(11)" class="time__body__clock__circle__text">11</p>
+				</div>
+			</div>
+			<div class="time__body__options clearfix">
+				<div class="time__body__options__previous">
+					<p>Placeholder</p>
+				</div>
+				<div class="time__body__options__cancel">
+					<button (click)="hideModal()" class="time__body__options__cancel__button">
+						<p>Cancel</p>
+					</button>
+				</div>
+				<div class="time__body__options__next">
+					<img src="assets/icon/icon_next.png"/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -113,7 +175,17 @@
 		<button ion-button (click)="goToEditActivitiesPage()" class="profile__body__button" color="primary">Edit Activities</button>
 
 		<ion-label class="profile__body__label">Free Until</ion-label>
-		<div class="profile__body__container"></div>
+		<div (click)="setTime()" class="profile__body__container profile__body__container--time clearfix">
+			<div class="profile__body__container__third">
+				<p class="profile__body__container__third__time">09</p>
+			</div>
+			<div class="profile__body__container__third">
+				<p class="profile__body__container__third__time">30</p>
+			</div>
+			<div class="profile__body__container__third profile__body__container__third--last">
+				<p class="profile__body__container__third__time profile__body__container__third__time--last">AM</p>
+			</div>
+		</div>
 		<button ion-button class="profile__body__button" color="light">Disable Timer</button>
 
 		<ion-label class="profile__body__label">Account Settings</ion-label>

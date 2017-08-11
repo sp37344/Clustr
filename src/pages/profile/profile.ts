@@ -23,8 +23,10 @@ export class ProfilePage {
 	private isBusy = false;
 	private isInvisible = false;
 
-	// Toggle the modal
+	// Toggle modals
 	private isModalVisible = false;
+	private isStatusModalVisible = false;
+	private isTimeModalVisible = false;
 
 	// Variables for checking what option is selected in the status modal
 	private isAvailableSelected = false;
@@ -39,6 +41,17 @@ export class ProfilePage {
 	private hasSingleActivity = false;
 	private hasMultipleActivities = false;
 	private areActivitiesCollapsible = false;
+
+	// Control flow in the Time Modal
+	private isSelectingHour = false;
+	private isSelectingMinute = false;
+	private isSelectingHalf = false;
+
+	// Variables for storing the user's desired Free Until time
+	private selectedTime : number;
+	private selectedHour : number;
+	private selectedDay : number;
+	private selectedHalf : string;
 
 	// Hard coded for testing purposes
 	private userId = 1;
@@ -84,6 +97,7 @@ export class ProfilePage {
 	showStatusModal() {
 		// Show the modal and lightbox
 		this.isModalVisible = true;
+		this.isStatusModalVisible = true;
 
 		// Show a checkmark next to the option reflecting the user's current status
 		switch(this.user['status']) {
@@ -96,17 +110,6 @@ export class ProfilePage {
 			default:
 				this.isInvisibleSelected = true;
 		}
-	};
-
-	// Hide status modal
-	hideStatusModal() {
-		// Hide the modal and lightbox
-		this.isModalVisible = false;
-
-		// Undo all checkmarks
-		this.isAvailableSelected = false;
-		this.isBusySelected = false;
-		this.isInvisibleSelected = false;
 	};
 
 	// Update GUI to reflect what option the user has selected
@@ -221,7 +224,44 @@ export class ProfilePage {
 		// Show option to expand activities and hide option to collapse activities
 		this.areAllActivitiesVisible = false;
 		this.areActivitiesCollapsible = false;
+	};
+
+	// Show the modal to set the time until which the user will be free
+	setTime() {
+		// Show the lightbox and Time Modal
+		this.isTimeModalVisible = true;
+		this.isSelectingHour = true;
+		this.isModalVisible = true;
+	};
+
+	// Update the view to reflect if the user has chosen an hour or minute
+	selectTime(time) {
+		// Update GUI
+		this.selectedTime = time;
 	}
+
+	// Hide status modal
+	hideModal() {
+		// Hide the appropriate modal
+		if (this.isStatusModalVisible) {
+			// Hide the Status Modal
+			this.isStatusModalVisible = false;
+
+			// Undo all checkmarks
+			this.isAvailableSelected = false;
+			this.isBusySelected = false;
+			this.isInvisibleSelected = false;
+		} else if (this.isTimeModalVisible) {
+			// Hide all time-related modals
+			this.isSelectingHalf = false;
+			this.isSelectingMinute = false;
+			this.isSelectingHour = false;
+			this.isTimeModalVisible = false;
+		}
+
+		// Hide lightbox
+		this.isModalVisible = false;
+	};
 
 	// Go to the Edit Activities Page
 	goToEditActivitiesPage() {

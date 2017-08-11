@@ -146,4 +146,220 @@ page-profile {
 		font-weight: bold;
 		transform: translateY(-6px);
 	}
+
+	.profile__body__container--time {
+		padding: 0;
+	}
+
+	.profile__body__container__third {
+		width: 33.333%;
+		float: left;
+		border-right: 1px solid map-get($colors, light);
+		padding: 15px 0;
+		text-align: center;
+	}
+
+	.profile__body__container__third--last {
+		border: none;
+	}
+
+	.profile__body__container__third__time {
+		font-family: "Segoe UI";
+		font-weight: bold;
+		font-size: 40px;
+	}
+
+	.profile__body__container__third__time--last {
+		font-size: 32px;
+		position: relative;
+		transform: translateY(6px);
+	}
+
+	.time {
+		width: 80%;
+		background-color: map-get($colors, white);
+		margin: 0 auto;
+		position: relative;
+		text-align: center;
+		top: 50%;
+		transform: translateY(-60%);
+	}
+
+	.time__header {
+		width: 100%;
+		background-color: map-get($colors, primary);
+		padding: 15px 0;
+	}
+
+	.time__header__text {
+		font-weight: 400;
+		margin: 0;
+		color: map-get($colors, white);
+		font-size: 28px;
+	}
+
+	.time__body {
+		width: 100%;
+		padding: 20px;
+		background-color: map-get($colors, white);
+	}
+
+	.time__body__clock {
+		width: 220px;
+		height: 220px;
+		border-radius: 100%;
+		position: relative;
+		margin: 0 auto;
+		margin-bottom: 30px;
+	}
+
+	.time__body__clock__circle {
+		background-color: map-get($colors, primary);
+		width: 35px;
+		height: 35px;
+		border-radius: 100%;
+		position: absolute;
+		transition: all 0.5s ease;
+	}
+
+	.time__body__clock__circle:active {
+		background-color: map-get($colors, primary-active);
+	}
+
+	.time__body__clock__circle--twelve {
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.time__body__clock__circle--one {
+		top: 14.737px;
+		right: 55px;
+		transform: translate(25%, -10%);
+	}
+
+	.time__body__clock__circle--two {
+		top: 55px;
+		right: 14.737px;
+		transform: translate(10%, -30%);
+	}
+
+	.time__body__clock__circle--three {
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.time__body__clock__circle--four {
+		bottom: 55px;
+		right: 14.737px;
+		transform: translate(10%, 30%);
+	}
+
+	.time__body__clock__circle--five {
+		bottom: 14.737px;
+		right: 55px;
+		transform: translate(25%, 10%);
+	}
+
+	.time__body__clock__circle--six {
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.time__body__clock__circle--seven {
+		bottom: 14.737px;
+		left: 55px;
+		transform: translate(-25%, 10%);
+	}
+
+	.time__body__clock__circle--eight {
+		left: 14.737px;
+		bottom: 55px;
+		transform: translate(-10%, 30%);
+	}	
+
+	.time__body__clock__circle--nine {
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.time__body__clock__circle--ten {
+		left: 14.737px;
+		top: 55px;
+		transform: translate(-10%, -30%);
+	}
+
+	.time__body__clock__circle--eleven {
+		top: 14.737px;
+		left: 55px;
+		transform: translate(-25%, -10%);
+	}	
+
+	.time__body__clock__circle__text {
+		font-family: "Segoe UI";
+		font-size: 18px;
+		font-weight: 600;
+		color: map-get($colors, white);
+		position: relative;
+		top: 50%;
+		transform: translateY(-52%);
+	}
+
+	.time__body__clock__selected {
+		width: 100%;
+		position: relative;
+		top: 50%;
+		transform: translateY(-60%);
+	}
+
+	.time__body__clock__selected h2 {
+		color: map-get($colors, dark);
+		font-size: 90px;
+	}
+
+	.time__body__options {
+		width: 100%;
+	}
+
+	.time__body__options__previous {
+		width: 33.333%;
+		float: left;
+		text-align: left;
+	}
+
+	.time__body__options__cancel {
+		width: 33.333%;
+		float: left;
+	}
+
+	.time__body__options__next {
+		width: 33.333%;
+		float: left;
+		text-align: right;
+	}
+
+	.time__body__options__previous img, .time__body__options__next img {
+		width: 30px;
+	}
+
+	.time__body__options__cancel__button {
+		background-color: map-get($colors, light);
+		padding: 10px 15px;
+		border-radius: 10px;
+		transition: all 0.5s ease;
+	}
+
+	.time__body__options__cancel__button:active {
+		background-color: map-get($colors, light-active);
+	}
+
+	.time__body__options p {
+		font-family: "Segoe UI";
+		color: map-get($colors, white);
+		text-transform: uppercase;
+		font-size: 18px;
+	}
 }
