@@ -305,14 +305,14 @@ page-profile {
 		color: map-get($colors, white);
 		position: relative;
 		top: 50%;
-		transform: translateY(-52%);
+		transform: translateY(-50%);
 	}
 
 	.time__body__clock__selected {
 		width: 100%;
 		position: relative;
 		top: 50%;
-		transform: translateY(-60%);
+		transform: translateY(-50%);
 	}
 
 	.time__body__clock__selected h2 {
