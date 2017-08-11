@@ -23,12 +23,12 @@ export class ProfilePage {
 	private isBusy = false;
 	private isInvisible = false;
 
-	// Toggle modals
+	// Toggle Modals
 	private isModalVisible = false;
 	private isStatusModalVisible = false;
 	private isTimeModalVisible = false;
 
-	// Variables for checking what option is selected in the status modal
+	// Variables for checking what option is selected in the status Modal
 	private isAvailableSelected = false;
 	private isBusySelected = false;
 	private isInvisibleSelected = false;
@@ -50,8 +50,10 @@ export class ProfilePage {
 	// Variables for storing the user's desired Free Until time
 	private selectedTime : number;
 	private selectedHour : number;
-	private selectedDay : number;
+	private selectedMinute : number;
 	private selectedHalf : string;
+	private isAmSelected = false;
+	private isPmSelected = false;
 
 	// Hard coded for testing purposes
 	private userId = 1;
@@ -93,9 +95,9 @@ export class ProfilePage {
 		this.getActivities();
 	}
 
-	// Show status modal, where user is able to set status to available, busy, or invisible
+	// Show status Modal, where user is able to set status to available, busy, or invisible
 	showStatusModal() {
-		// Show the modal and lightbox
+		// Show the Modal and lightbox
 		this.isModalVisible = true;
 		this.isStatusModalVisible = true;
 
@@ -163,7 +165,7 @@ export class ProfilePage {
 			console.log(res);
 		});
 
-		// Close modal
+		// Close Modal
 		this.isModalVisible = false;
 	};
 
@@ -226,7 +228,7 @@ export class ProfilePage {
 		this.areActivitiesCollapsible = false;
 	};
 
-	// Show the modal to set the time until which the user will be free
+	// Show the Modal to set the time until which the user will be free
 	setTime() {
 		// Show the lightbox and Time Modal
 		this.isTimeModalVisible = true;
@@ -240,9 +242,101 @@ export class ProfilePage {
 		this.selectedTime = time;
 	}
 
-	// Hide status modal
+	// Save the AM/PM option that the user has selected
+	selectHalf(half) {
+		// Update GUI to reflect the user's selection
+		if (half == 'AM') {
+			// Add an active class to the selected button
+			this.isAmSelected = true;
+			this.isPmSelected = false;
+
+			// Save the selection
+			this.selectedHalf = half;
+		} else {
+			// Add an active class to the selected button
+			this.isAmSelected = false;
+			this.isPmSelected = true;
+
+			// Save the selection
+			this.selectedHalf = half;
+		}
+	}
+
+	// Save the time and update the Free Until time in the database
+	updateTime() {
+		if (this.selectedHalf != null) {
+			// Hide the Time Modal and clear selected times
+			this.hideModal();
+		}
+	}
+
+	// Show the next Time Modal
+	showNextTimeModal() {
+		// Check if a time has been selected
+		if (this.selectedTime != null) {
+			// Show the next Modal, based on what Modal is currently showing
+			if (this.isSelectingHour) {
+				// Save the hour
+				this.selectedHour = this.selectedTime;
+
+				// Hide the Hour Time Modal
+				this.isSelectingHour = false;
+
+				// Clear or show a selected time depending on whether the user has already selected an option
+				if (this.selectedMinute != null) {
+					this.selectedTime = this.selectedMinute;
+				} else {
+					this.selectedTime = null;
+				}
+
+				// Show the Minute Time Modal
+				this.isSelectingMinute = true;
+			} else if (this.isSelectingMinute) {
+				// Save the minute
+				this.selectedMinute = this.selectedTime;
+
+				// Hide the Minute Time Modal
+				this.isSelectingMinute = false;
+
+				// Show the AM/PM Time Modal and clear the unneeded selected time variable
+				this.selectedTime = null;
+				this.isSelectingHalf = true;
+			}
+		}
+	};
+
+	// Show the previous Modal
+	showPreviousTimeModal() {
+		// Show the previous Modal, based on what Modal is currently showing
+		if (this.isSelectingMinute) {
+			// Hide the Minute Time Modal
+			this.isSelectingMinute = false;
+
+			// Temporarily save the selection if an option has been selected
+			if (this.selectedTime != null) {
+				this.selectedMinute = this.selectedTime;
+			}
+
+			// Show the selected hour
+			this.selectedTime = this.selectedHour;
+
+			// Show the Hour Time Modal
+			this.isSelectingHour = true;
+		} else if (this.isSelectingHalf) {
+			// Hide the AM/PM Time Modal
+			this.isSelectingHalf = false;
+
+			// Show the selected minute
+			this.selectedTime = this.selectedMinute;
+
+			// Show the Minute Time Modal
+			this.isSelectingMinute = true;
+		}
+	}
+ 
+	// Hide whatever Modal is visible
 	hideModal() {
-		// Hide the appropriate modal
+		// Hide the appropriate Modal
 		if (this.isStatusModalVisible) {
 			// Hide the Status Modal
 			this.isStatusModalVisible = false;
@@ -252,11 +346,19 @@ export class ProfilePage {
 			this.isBusySelected = false;
 			this.isInvisibleSelected = false;
 		} else if (this.isTimeModalVisible) {
-			// Hide all time-related modals
+			// Hide all time-related Modals
 			this.isSelectingHalf = false;
 			this.isSelectingMinute = false;
 			this.isSelectingHour = false;
 			this.isTimeModalVisible = false;
+
+			// Clear all selected times
+			this.selectedTime = null;
+			this.selectedHour = null;
+			this.selectedMinute = null;
+			this.selectedHalf = null;
+			this.isAmSelected = false;
+			this.isPmSelected = false;
 		}
 
 		// Hide lightbox

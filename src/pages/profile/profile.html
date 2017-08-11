@@ -111,7 +111,7 @@
 			</div>
 			<div class="time__body__options clearfix">
 				<div class="time__body__options__previous">
-					<p>Placeholder</p>
+					<p>Hi</p>
 				</div>
 				<div class="time__body__options__cancel">
 					<button (click)="hideModal()" class="time__body__options__cancel__button">
@@ -119,7 +119,100 @@
 					</button>
 				</div>
 				<div class="time__body__options__next">
-					<img src="assets/icon/icon_next.png"/>
+					<img (click)="showNextTimeModal()" src="assets/icon/icon_next.png"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="isTimeModalVisible && isSelectingMinute" class="time">
+		<div class="time__header clearfix">
+			<h1 class="time__header__text">Minute</h1>
+		</div>
+		<div class="time__body">
+			<div class="time__body__clock">
+				<div class="time__body__clock__selected">
+					<h2>{{ selectedTime }}</h2>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--twelve">
+					<p (click)="selectTime(00)" class="time__body__clock__circle__text">00</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--one">
+					<p (click)="selectTime(05)" class="time__body__clock__circle__text">05</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--two">
+					<p (click)="selectTime(10)" class="time__body__clock__circle__text">10</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--three">
+					<p (click)="selectTime(15)" class="time__body__clock__circle__text">15</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--four">
+					<p (click)="selectTime(20)" class="time__body__clock__circle__text">20</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--five">
+					<p (click)="selectTime(25)" class="time__body__clock__circle__text">25</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--six">
+					<p (click)="selectTime(30)" class="time__body__clock__circle__text">30</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--seven">
+					<p (click)="selectTime(35)" class="time__body__clock__circle__text">35</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--eight">
+					<p (click)="selectTime(40)" class="time__body__clock__circle__text">40</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--nine">
+					<p (click)="selectTime(45)" class="time__body__clock__circle__text">45</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--ten">
+					<p (click)="selectTime(50)" class="time__body__clock__circle__text">50</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--eleven">
+					<p (click)="selectTime(55)" class="time__body__clock__circle__text">55</p>
+				</div>
+			</div>
+			<div class="time__body__options clearfix">
+				<div class="time__body__options__previous">
+					<img (click)="showPreviousTimeModal()" src="assets/icon/icon_previous.png"/>
+				</div>
+				<div class="time__body__options__cancel">
+					<button (click)="hideModal()" class="time__body__options__cancel__button">
+						<p>Cancel</p>
+					</button>
+				</div>
+				<div class="time__body__options__next">
+					<img (click)="showNextTimeModal()" src="assets/icon/icon_next.png"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="isTimeModalVisible && isSelectingHalf" class="time">
+		<div class="time__header clearfix">
+			<h1 class="time__header__text">Time of Day</h1>
+		</div>
+		<div class="time__body">
+			<div class="time__body__clock">
+				<div class="profile__body__container profile__body__container--time clearfix">
+					<div (click)="selectHalf('AM')" class="profile__body__container__half" [ngClass]="{'profile__body__container__half--active-left' : isAmSelected}">
+						<p class="profile__body__container__half__time" [ngClass]="{'profile__body__container__half__time--active' : isAmSelected}">AM</p>
+					</div>
+					<div (click)="selectHalf('PM')" class="profile__body__container__half profile__body__container__half--last" [ngClass]="{'profile__body__container__half--active-right' : isPmSelected}">
+						<p class="profile__body__container__half__time" [ngClass]="{'profile__body__container__half__time--active' : isPmSelected}">PM</p>
+					</div>
+				</div>
+			</div>
+			<div class="time__body__options clearfix">
+				<div class="time__body__options__previous">
+					<img (click)="showPreviousTimeModal()" src="assets/icon/icon_previous.png"/>
+				</div>
+				<div class="time__body__options__cancel">
+					<button (click)="hideModal()" class="time__body__options__cancel__button">
+						<p>Cancel</p>
+					</button>
+				</div>
+				<div class="time__body__options__next">
+					<img (click)="updateTime()" src="assets/icon/icon_confirm.png"/>
 				</div>
 			</div>
 		</div>
