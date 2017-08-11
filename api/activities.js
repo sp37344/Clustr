@@ -5,9 +5,12 @@ var options = {
 	promiseLib : promise
 }
 
+// For testing
+var localhost = 'http://192.168.42.154';
+
 var pgp = require('pg-promise')(options);
 var db = pgp({
-	host: 'localhost',
+	host: '192.168.42.154',
 	port: 5432,
 	database: 'clustr',
 	user: 'postgres',
