@@ -38,7 +38,7 @@ page-profile {
 	}
 
 	.profile__body__label {
-		color: #95989a;
+		color: color($colors, mid);
 		font-size: 18px;
 		font-weight: bold;
 		text-transform: uppercase;
@@ -50,7 +50,7 @@ page-profile {
 
 	.profile__body__container {
 		width: 100%;
-		border: 1px solid map-get($colors, mid);
+		border: 1px solid map-get($colors, light);
 		border-radius: 15px;
 		padding: 20px;
 		transition: all 0.5s ease;
@@ -71,9 +71,11 @@ page-profile {
 		float: left;
 	}
 
-	p {
+	.profile__body__container__status p {
 		font-size: 22px;
-		color: map-get($colors, mid);
+		color: map-get($colors, dark);
+		position: relative;
+		transform: translateY(5px);
 	}
 
 	.profile__body__container__down {
@@ -86,7 +88,7 @@ page-profile {
 		transform: translateY(5px);
 	}
 
-	.profile__body__container__button {
+	.profile__body__button {
 		box-shadow: none;
 		border-radius: 20px;
 		width: 100%;
@@ -109,6 +111,8 @@ page-profile {
 
 	.profile__body__container__item__text {
 		padding: 15px 20px;
+		color: map-get($colors, dark);
+		font-size: 22px;
 		border-top: 1px solid map-get($colors, light);
 	}
 
