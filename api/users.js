@@ -21,7 +21,7 @@ var db = pgp({
 
 // Get all users
 function getAllUsers(req, res, next) {
-	db.any('select * from users').then(function(data) {
+	db.any('SELECT * FROM users').then(function(data) {
 		res.status(200).json({
 			status: 'success',
 			data: data,
@@ -35,7 +35,7 @@ function getAllUsers(req, res, next) {
 // Get the user corresponding to a Clustr id
 function getUser(req, res, next) {
 	var userId = req.params.id;
-	db.one('select * from users where id = $1', userId).then(function(data) {
+	db.one('SELECT * FROM users WHERE id = $1', userId).then(function(data) {
 		res.status(200).json({
 			status: 'success',
 			data: data,
@@ -48,19 +48,32 @@ function getUser(req, res, next) {
 
 // Update a single user's status
 function updateStatus(req, res, next) {
-	db.none('update users set status=$1 where id=$2', [req.body.status, parseInt(req.params.id)]).then(function() {
+	db.none('UPDATE users SET status=$1 WHERE id=$2', [req.body.status, parseInt(req.params.id)]).then(function() {
 		res.status(200).json({
 			status: 'success',
-			message: 'Updated user'
+			message: 'Updated the status of the user'
 		});
 	}).catch(function(err) {
 		return next(err);
-	})
+	});
+};
+
+// Update the time at which a user will become inactive
+function updateTime(req, res, next) {
+	db.none('UPDATE users SET free_until=$1 WHERE id=$2', [req.body.free_until, parseInt(req.params.id)]).then(function() {
+		res.status(200).json({
+			status: 'success',
+			message: 'Updated the time at which the user will become inactive'
+		});
+	}).catch(function(err) {
+		return next(err);
+	});
 };
 
 // Export all functions
 module.exports = {
 	getAllUsers: getAllUsers,
 	getUser: getUser,
-	updateStatus: updateStatus
+	updateStatus: updateStatus,
+	updateTime: updateTime
 };

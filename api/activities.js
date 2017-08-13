@@ -22,7 +22,7 @@ var db = pgp({
 // Get all the activities attributed to a single user
 function getAllActivities(req, res, next) {
 	var userId = parseInt(req.params.id);
-	db.any('select * from activities where user_id = $1', userId).then(function(data) {
+	db.any('SELECT * FROM activities WHERE user_id = $1', userId).then(function(data) {
 		res.status(200).json({
 			status: 'success',
 			data: data,
@@ -35,7 +35,7 @@ function getAllActivities(req, res, next) {
 
 // Add an activity to a user's suggested activities list
 function addActivity(req, res, next) {
-	db.none('insert into activities(user_id, name)' +'values(${user_id}, ${name})', req.body).then(function() {
+	db.none('INSERT INTO activities(user_id, name)' +'values(${user_id}, ${name})', req.body).then(function() {
 		res.status(200).json({
 			status: 'success',
 			message: 'Created a new activity for the user'
@@ -47,7 +47,7 @@ function addActivity(req, res, next) {
 
 // Edit an activity in the user's suggested activities list
 function editActivity(req, res, next) {
-	db.none('update activities set name=$1 where id=$2', [req.body.name, parseInt(req.params.id)]).then(function() {
+	db.none('UPDATE activities SET name=$1 WHERE id=$2', [req.body.name, parseInt(req.params.id)]).then(function() {
 		res.status(200).json({
 			status: 'success',
 			message: 'Updated activity'
@@ -60,7 +60,7 @@ function editActivity(req, res, next) {
 // Delete an activity from a user's suggested activities list
 function deleteActivity(req, res, next) {
 	var activityId = parseInt(req.params.id);
-	db.result('delete from activities where id = $1', activityId).then(function(result) {
+	db.result('DELETE FROM activities WHERE id = $1', activityId).then(function(result) {
 		res.status(200).json({
 			status: 'success',
 			message: `Removed ${result.rowCount} activity`

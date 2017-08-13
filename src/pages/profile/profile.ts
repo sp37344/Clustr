@@ -18,6 +18,9 @@ export class ProfilePage {
 	private user : any;
 	private activities : Array<any> = [];
 
+	// Headers
+	private headers : any;
+
 	// Variables for checking current status so that the right status shows as the selected item in the status dropdown
 	private isAvailable = false;
 	private isBusy = false;
@@ -60,6 +63,13 @@ export class ProfilePage {
 
 	// Constructor
 	constructor(private _app : App, private _http : Http, private _configuration : Configuration, private _events : Events) {
+		// Update headers
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+
+		// Add an event listener for handling of the back button
+		document.addEventListener("backbutton", this.onBackKeyDown, false);
+
 		// Subscribe for a reload of the activities array when the user presses the back button when in the Create an Activity page
 		this._events.subscribe('reloadProfileActivities', () => {
 			// Collapse activities and reload activities
@@ -72,7 +82,8 @@ export class ProfilePage {
 			// Store the user's first name and last name in the user object
 			this.user = {
 				'firstName' : res.data.first_name,
-				'lastName' : res.data.last_name
+				'lastName' : res.data.last_name,
+				'freeUntil' : res.data.free_until
 			};
 
 			// Check what should show up as the currently selected item in the status dropdown, as well as update the user object
@@ -137,10 +148,6 @@ export class ProfilePage {
 
 	// Update status to selected status
 	updateStatus() {
-		// Update headers
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
 		// Update body to reflected selected status and update GUI so that selected option in the dropdown is updated
 		if (this.isAvailableSelected) {
 			this.user['status'] = 'Available';
@@ -161,7 +168,7 @@ export class ProfilePage {
 
 		// Call PUT endpoint to update the status of the user
 		var body = JSON.stringify(this.user);
-		this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/status', body, { headers: headers }).map(res => res.json()).subscribe(res => {
+		this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/status', body, {headers: this.headers}).map(res => res.json()).subscribe(res => {
 			console.log(res);
 		});
 
@@ -264,7 +271,23 @@ export class ProfilePage {
 
 	// Save the time and update the Free Until time in the database
 	updateTime() {
+		// Check if the user has selected a time
 		if (this.selectedHalf != null) {
+			// Modify the selected hour time +12 hours if the user chose the PM option
+			if (this.selectedHalf == 'PM') {
+				this.selectedHour = this.selectedHour + 12;
+			}
+
+			// Update the user object to reflect the updated time
+			var temp = this.selectedHour + ':' + this.selectedMinute + ':00';
+			this.user['freeUntil'] = temp;
+
+			// Modify the time at which the user becomes inactive in the database using a PUT function
+			var body = JSON.stringify(this.user);
+			this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/time', body, {headers : this.headers}).map(res => res.json()).subscribe(res => {
+				console.log(res);
+			});
+
 			// Hide the Time Modal and clear selected times
 			this.hideModal();
 		}
@@ -369,5 +392,10 @@ export class ProfilePage {
 	goToEditActivitiesPage() {
 		// Navigate to the Edit Activities Page
 		this._app.getRootNav().push(EditActivitiesPage);
+	};
+
+	// Hide modals on the back key down, overriding the default behavior to quit the app
+	onBackKeyDown(event) {
+		// Do something
 	};
 }

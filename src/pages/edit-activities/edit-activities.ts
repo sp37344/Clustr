@@ -77,7 +77,7 @@ export class EditActivitiesPage {
 			};
 
 			// Create a new activity for the user using a POST function
-			this._http.post(this._configuration.apiUrl + 'activities/' + this.userId, body, { headers : this.headers }).map(res => res.json()).subscribe(res => {
+			this._http.post(this._configuration.apiUrl + 'activities/' + this.userId, body, {headers : this.headers}).map(res => res.json()).subscribe(res => {
 				// Print success message
 				console.log(res);
 
@@ -139,7 +139,7 @@ export class EditActivitiesPage {
 
 				// Change the name of the activity in the database using a POST function
 				var body = JSON.stringify(this.activities[index]);
-				this._http.put(this._configuration.apiUrl + 'activities/' + this.activityId, body, { headers: this.headers }).map(res => res.json()).subscribe(res => {
+				this._http.put(this._configuration.apiUrl + 'activities/' + this.activityId, body, {headers: this.headers}).map(res => res.json()).subscribe(res => {
 					console.log(res);
 				});
 			}			
