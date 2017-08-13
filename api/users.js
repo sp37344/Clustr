@@ -10,7 +10,8 @@ var localhost = 'http://192.168.42.154';
 
 var pgp = require('pg-promise')(options);
 var db = pgp({
-	host: '192.168.42.154',
+	host: 'localhost',
+	// host: '192.168.42.154',
 	port: 5432,
 	database: 'clustr',
 	user: 'postgres',
@@ -60,7 +61,7 @@ function updateStatus(req, res, next) {
 
 // Update the time at which a user will become inactive
 function updateTime(req, res, next) {
-	db.none('UPDATE users SET free_until=$1 WHERE id=$2', [req.body.free_until, parseInt(req.params.id)]).then(function() {
+	db.none('UPDATE users SET free_until=$1 WHERE id=$2', [req.body.freeUntil, parseInt(req.params.id)]).then(function() {
 		res.status(200).json({
 			status: 'success',
 			message: 'Updated the time at which the user will become inactive'

@@ -52,11 +52,17 @@ export class ProfilePage {
 
 	// Variables for storing the user's desired Free Until time
 	private selectedTime : number;
-	private selectedHour : number;
-	private selectedMinute : number;
+	private selectedHour : any;
+	private selectedMinute : any;
 	private selectedHalf : string;
 	private isAmSelected = false;
 	private isPmSelected = false;
+
+	// Variables for displaying the corect Free Until time in the clock
+	private displayHour : any;
+	private displayMinute : any;
+	private displayHalf : string;
+	private isTimeDisplaying = false;
 
 	// Hard coded for testing purposes
 	private userId = 1;
@@ -75,7 +81,7 @@ export class ProfilePage {
 			// Collapse activities and reload activities
 			this.collapseActivities();
 			this.getActivities();
-		})
+		});
 
 		// Get the user's information
 		this._http.get(this._configuration.apiUrl + 'users/' + this.userId).map(res => res.json()).subscribe(res => {
@@ -100,6 +106,9 @@ export class ProfilePage {
 					this.user['status'] = 'Invisible';
 					this.isInvisible = true;
 			}
+
+			// Set the display time
+			this.setDisplayTime();
 		});
 
 		// Get the user's activities
@@ -168,7 +177,9 @@ export class ProfilePage {
 
 		// Call PUT endpoint to update the status of the user
 		var body = JSON.stringify(this.user);
+		console.log(body);
 		this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/status', body, {headers: this.headers}).map(res => res.json()).subscribe(res => {
+			// Print success message
 			console.log(res);
 		});
 
@@ -274,24 +285,110 @@ export class ProfilePage {
 		// Check if the user has selected a time
 		if (this.selectedHalf != null) {
 			// Modify the selected hour time +12 hours if the user chose the PM option
-			if (this.selectedHalf == 'PM') {
-				this.selectedHour = this.selectedHour + 12;
+			var tempHour : any;
+			if (this.selectedHalf == 'PM' && this.selectedHour != 12) {
+				// Increase the hour count if the user chose the PM option
+				tempHour = this.selectedHour + 12;
+
+				// Add a leading zero if needed for the display
+				if (this.selectedHour < 10) {
+					this.selectedHour = '0' + this.selectedHour;
+				}
+			} else if (this.selectedHalf == 'AM' && this.selectedHour == 12) {
+				// Modify the hour count to reflect midnight
+				tempHour = '00';
+			} else {
+				// Add a leading zero, if necessary, granted the user chose the AM option
+				if (this.selectedHour < 10) {
+					this.selectedHour = '0' + this.selectedHour;
+				}
+				tempHour = this.selectedHour;
+			}
+	
+			// Modify the selected minute to be double digits if below 10
+			if (this.selectedMinute < 10) {
+				this.selectedMinute = '0' + this.selectedMinute;
 			}
 
 			// Update the user object to reflect the updated time
-			var temp = this.selectedHour + ':' + this.selectedMinute + ':00';
+			var temp = tempHour + ':' + this.selectedMinute + ':00';
 			this.user['freeUntil'] = temp;
+			console.log(this.user['freeUntil']);
 
 			// Modify the time at which the user becomes inactive in the database using a PUT function
 			var body = JSON.stringify(this.user);
+			console.log(body);
 			this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/time', body, {headers : this.headers}).map(res => res.json()).subscribe(res => {
+				// Print success message
 				console.log(res);
-			});
 
-			// Hide the Time Modal and clear selected times
-			this.hideModal();
+				// Update the display
+				this.displayHour = this.selectedHour;
+				this.displayMinute = this.selectedMinute;
+				this.displayHalf = this.selectedHalf;
+				this.isTimeDisplaying = true;
+
+				// Hide the Time Modal and clear selected times
+				this.hideModal();
+			});
 		}
-	}
+	};
+
+	// Set the display time
+	setDisplayTime() {
+		// Check if the user has set a time
+		if (this.user['freeUntil'] != null) {
+			// Modify the hour if needed, then store the hour and time of day
+			var timeString = this.user['freeUntil'];
+			var temp = parseInt(timeString.slice(0, 2));
+
+			// Check if the time has been set for AM or PM
+			if (temp > 12) {
+				// Subtract 12 if the hour refers to the PM
+				this.displayHour = temp - 12;
+				this.displayHalf = 'PM';
+
+				// Add leading zero if necessary
+				if (this.displayHour < 10) {
+					this.displayHour = '0' + this.displayHour;
+				}
+			} else {
+				// Retain the original hour value
+				this.displayHour = temp;
+
+				// Set whether the time is in the AM or PM
+				if (temp == 12) {
+					// Set time of day to PM
+					this.displayHalf = 'PM';
+				} else {
+					// Account for midnight
+					if (temp == 0) {
+						this.displayHour = 12;
+					}
+
+					// Set time of day to AM
+					this.displayHalf = 'AM';
+				}
+
+				// Add leading zero if ncessary
+				if (this.displayHour < 10) {
+					this.displayHour = '0' + this.displayHour;
+				}
+			}
+
+			// Set the minute display time
+			this.displayMinute = timeString.slice(3, 5);
+
+			// Restore CSS classes in HTML to default values for if time is showing
+			this.isTimeDisplaying = true;
+		} else {
+			// Display dashes to reflect the null value
+			this.displayHour = '--';
+			this.displayMinute = '--';
+			this.displayHalf = '--';
+			this.isTimeDisplaying = false;
+		}
+	};
 
 	// Show the next Time Modal
 	showNextTimeModal() {

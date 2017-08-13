@@ -270,13 +270,13 @@
 		<ion-label class="profile__body__label">Free Until</ion-label>
 		<div (click)="setTime()" class="profile__body__container profile__body__container--time clearfix">
 			<div class="profile__body__container__third">
-				<p class="profile__body__container__third__time">09</p>
+				<p class="profile__body__container__third__time">{{ displayHour }}</p>
 			</div>
 			<div class="profile__body__container__third">
-				<p class="profile__body__container__third__time">30</p>
+				<p class="profile__body__container__third__time">{{ displayMinute }}</p>
 			</div>
 			<div class="profile__body__container__third profile__body__container__third--last">
-				<p class="profile__body__container__third__time profile__body__container__third__time--last">AM</p>
+				<p class="profile__body__container__third__time" [ngClass]="{'profile__body__container__third__time--last' : isTimeDisplaying}">{{ displayHalf }}</p>
 			</div>
 		</div>
 		<button ion-button class="profile__body__button" color="light">Disable Timer</button>
