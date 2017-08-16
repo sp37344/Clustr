@@ -10,7 +10,7 @@ log.txt
 *.sublime-project
 *.sublime-workspace
 .vscode/
-npm-debug.log*# 
+npm-debug.log*
 
 .idea/
 .sass-cache/
@@ -27,7 +27,7 @@ plugins/
 plugins/android.json
 plugins/ios.json
 www/
-$RECYCLE.BIN/# 
+$RECYCLE.BIN/
 
 .DS_Store
 Thumbs.db

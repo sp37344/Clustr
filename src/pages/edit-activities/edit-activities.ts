@@ -138,8 +138,8 @@ export class EditActivitiesPage {
 				this.activities[index].name = this.editedActivityName;
 
 				// Change the name of the activity in the database using a POST function
-				var body = JSON.stringify(this.activities[index]);
-				this._http.put(this._configuration.apiUrl + 'activities/' + this.activityId, body, {headers: this.headers}).map(res => res.json()).subscribe(res => {
+				this._http.put(this._configuration.apiUrl + 'activities/' + this.activityId, this.activities[index], {headers: this.headers}).map(res => res.json()).subscribe(res => {
+					// Print success message
 					console.log(res);
 				});
 			}			

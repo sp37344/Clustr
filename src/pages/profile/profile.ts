@@ -176,15 +176,13 @@ export class ProfilePage {
 		}
 
 		// Call PUT endpoint to update the status of the user
-		var body = JSON.stringify(this.user);
-		console.log(body);
-		this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/status', body, {headers: this.headers}).map(res => res.json()).subscribe(res => {
+		this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/status', this.user, {headers: this.headers}).map(res => res.json()).subscribe(res => {
 			// Print success message
 			console.log(res);
 		});
 
 		// Close Modal
-		this.isModalVisible = false;
+		this.hideModal();
 	};
 
 	// Get the user's activities
@@ -258,7 +256,7 @@ export class ProfilePage {
 	selectTime(time) {
 		// Update GUI
 		this.selectedTime = time;
-	}
+	};
 
 	// Save the AM/PM option that the user has selected
 	selectHalf(half) {
@@ -278,7 +276,7 @@ export class ProfilePage {
 			// Save the selection
 			this.selectedHalf = half;
 		}
-	}
+	};
 
 	// Save the time and update the Free Until time in the database
 	updateTime() {
@@ -453,6 +451,229 @@ export class ProfilePage {
 			this.isSelectingMinute = true;
 		}
 	}
+ 
+	// Hide whatever Modal is visible
+	hideModal() {
+		// Hide the appropriate Modal
+		if (this.isStatusModalVisible) {
+			// Hide the Status Modal
+			this.isStatusModalVisible = false;
+
+			// Undo all checkmarks
+			this.isAvailableSelected = false;
+			this.isBusySelected = false;
+			this.isInvisibleSelected = false;
+		} else if (this.isTimeModalVisible) {
+			// Hide all time-related Modals
+			this.isSelectingHalf = false;
+			this.isSelectingMinute = false;
+			this.isSelectingHour = false;
+			this.isTimeModalVisible = false;
+
+			// Clear all selected times
+			this.selectedTime = null;
+			this.selectedHour = null;
+			this.selectedMinute = null;
+			this.selectedHalf = null;
+			this.isAmSelected = false;
+			this.isPmSelected = false;
+		}
+
+		// Hide lightbox
+		this.isModalVisible = false;
+	};
+
+	// Save the AM/PM option that the user has selected
+	selectHalf(half) {
+		// Update GUI to reflect the user's selection
+		if (half == 'AM') {
+			// Add an active class to the selected button
+			this.isAmSelected = true;
+			this.isPmSelected = false;
+
+			// Save the selection
+			this.selectedHalf = half;
+		} else {
+			// Add an active class to the selected button
+			this.isAmSelected = false;
+			this.isPmSelected = true;
+
+			// Save the selection
+			this.selectedHalf = half;
+		}
+	};
+
+	// Save the time and update the Free Until time in the database
+	updateTime() {
+		// Check if the user has selected a time
+		if (this.selectedHalf != null) {
+			// Modify the selected hour time +12 hours if the user chose the PM option
+			var tempHour : any;
+			if (this.selectedHalf == 'PM' && this.selectedHour != 12) {
+				// Increase the hour count if the user chose the PM option
+				tempHour = this.selectedHour + 12;
+
+				// Add a leading zero if needed for the display
+				if (this.selectedHour < 10) {
+					this.selectedHour = '0' + this.selectedHour;
+				}
+			} else if (this.selectedHalf == 'AM' && this.selectedHour == 12) {
+				// Modify the hour count to reflect midnight
+				tempHour = '00';
+			} else {
+				// Add a leading zero, if necessary, granted the user chose the AM option
+				if (this.selectedHour < 10) {
+					this.selectedHour = '0' + this.selectedHour;
+				}
+				tempHour = this.selectedHour;
+			}
+	
+			// Modify the selected minute to be double digits if below 10
+			if (this.selectedMinute < 10) {
+				this.selectedMinute = '0' + this.selectedMinute;
+			}
+
+			// Update the user object to reflect the updated time
+			var temp = tempHour + ':' + this.selectedMinute + ':00';
+			this.user['freeUntil'] = temp;
+			console.log(this.user['freeUntil']);
+
+			// Modify the time at which the user becomes inactive in the database using a PUT function
+			this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/time', this.user, {headers : this.headers}).map(res => res.json()).subscribe(res => {
+				// Print success message
+				console.log(res);
+
+				// Update the display
+				this.displayHour = this.selectedHour;
+				this.displayMinute = this.selectedMinute;
+				this.displayHalf = this.selectedHalf;
+				this.isTimeDisplaying = true;
+
+				// Hide the Time Modal and clear selected times
+				this.hideModal();
+			});
+		}
+	};
+
+	// Set the display time
+	setDisplayTime() {
+		// Check if the user has set a time
+		if (this.user['freeUntil'] != null) {
+			// Modify the hour if needed, then store the hour and time of day
+			var timeString = this.user['freeUntil'];
+			var temp = parseInt(timeString.slice(0, 2));
+
+			// Check if the time has been set for AM or PM
+			if (temp > 12) {
+				// Subtract 12 if the hour refers to the PM
+				this.displayHour = temp - 12;
+				this.displayHalf = 'PM';
+
+				// Add leading zero if necessary
+				if (this.displayHour < 10) {
+					this.displayHour = '0' + this.displayHour;
+				}
+			} else {
+				// Retain the original hour value
+				this.displayHour = temp;
+
+				// Set whether the time is in the AM or PM
+				if (temp == 12) {
+					// Set time of day to PM
+					this.displayHalf = 'PM';
+				} else {
+					// Account for midnight
+					if (temp == 0) {
+						this.displayHour = 12;
+					}
+
+					// Set time of day to AM
+					this.displayHalf = 'AM';
+				}
+
+				// Add leading zero if ncessary
+				if (this.displayHour < 10) {
+					this.displayHour = '0' + this.displayHour;
+				}
+			}
+
+			// Set the minute display time
+			this.displayMinute = timeString.slice(3, 5);
+
+			// Restore CSS classes in HTML to default values for if time is showing
+			this.isTimeDisplaying = true;
+		} else {
+			// Display dashes to reflect the null value
+			this.displayHour = '--';
+			this.displayMinute = '--';
+			this.displayHalf = '--';
+			this.isTimeDisplaying = false;
+		}
+	};
+
+	// Show the next Time Modal
+	showNextTimeModal() {
+		// Check if a time has been selected
+		if (this.selectedTime != null) {
+			// Show the next Modal, based on what Modal is currently showing
+			if (this.isSelectingHour) {
+				// Save the hour
+				this.selectedHour = this.selectedTime;
+
+				// Hide the Hour Time Modal
+				this.isSelectingHour = false;
+
+				// Clear or show a selected time depending on whether the user has already selected an option
+				if (this.selectedMinute != null) {
+					this.selectedTime = this.selectedMinute;
+				} else {
+					this.selectedTime = null;
+				}
+
+				// Show the Minute Time Modal
+				this.isSelectingMinute = true;
+			} else if (this.isSelectingMinute) {
+				// Save the minute
+				this.selectedMinute = this.selectedTime;
+
+				// Hide the Minute Time Modal
+				this.isSelectingMinute = false;
+
+				// Show the AM/PM Time Modal and clear the unneeded selected time variable
+				this.selectedTime = null;
+				this.isSelectingHalf = true;
+			}
+		}
+	};
+
+	// Show the previous Modal
+	showPreviousTimeModal() {
+		// Show the previous Modal, based on what Modal is currently showing
+		if (this.isSelectingMinute) {
+			// Hide the Minute Time Modal
+			this.isSelectingMinute = false;
+
+			// Temporarily save the selection if an option has been selected
+			if (this.selectedTime != null) {
+				this.selectedMinute = this.selectedTime;
+			}
+
+			// Show the selected hour
+			this.selectedTime = this.selectedHour;
+
+			// Show the Hour Time Modal
+			this.isSelectingHour = true;
+		} else if (this.isSelectingHalf) {
+			// Hide the AM/PM Time Modal
+			this.isSelectingHalf = false;
+
+			// Show the selected minute
+			this.selectedTime = this.selectedMinute;
+
+			// Show the Minute Time Modal
+			this.isSelectingMinute = true;
+		}
+	};
  
 	// Hide whatever Modal is visible
 	hideModal() {

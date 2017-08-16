@@ -1,48 +1,19 @@
 {
-    "name": "clustr",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-        "start": "node ./bin/www"
-    },
-    "dependencies": {
-        "bluebird": "^3.5.0",
-        "body-parser": "~1.17.1",
-        "cookie-parser": "~1.4.3",
-        "cordova-android": "^6.2.3",
-        "cordova-plugin-console": "^1.0.5",
-        "cordova-plugin-device": "^1.1.4",
-        "cordova-plugin-facebook4": "^1.9.1",
-        "cordova-plugin-splashscreen": "^4.0.3",
-        "cordova-plugin-statusbar": "^2.2.2",
-        "cordova-plugin-whitelist": "^1.3.1",
-        "cors": "^2.8.4",
-        "debug": "~2.6.3",
-        "express": "~4.15.2",
-        "ionic-plugin-keyboard": "^2.2.1",
-        "jade": "~1.11.0",
-        "morgan": "~1.8.1",
-        "pg-promise": "^5.9.7",
-        "serve-favicon": "~2.4.2"
-    },
-    "devDependencies": {
-        "@types/cors": "^2.8.1"
-    },
-    "cordova": {
-        "plugins": {
-            "cordova-plugin-console": {},
-            "cordova-plugin-device": {},
-            "cordova-plugin-facebook4": {
-                "APP_ID": "296736737402078",
-                "APP_NAME": "clustr"
-            },
-            "cordova-plugin-splashscreen": {},
-            "cordova-plugin-statusbar": {},
-            "cordova-plugin-whitelist": {},
-            "ionic-plugin-keyboard": {}
-        },
-        "platforms": [
-            "android"
-        ]
-    }
+  "name": "clustr",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "~4.15.2",
+    "jade": "~1.11.0",
+    "morgan": "~1.8.1",
+    "pg-promise": "^5.9.7",
+    "serve-favicon": "~2.4.2"
+  }
 }
