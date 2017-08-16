@@ -71,10 +71,23 @@ function updateTime(req, res, next) {
 	});
 };
 
+// Enable or disable the user's timer
+function toggleTimer(req, res, next) {
+	db.none('UPDATE users SET timer_enabled=$1 WHERE id=$2', [req.body.timerEnabled, parseInt(req.params.id)]).then(function() {
+		res.status(200).json({
+			status: 'success',
+			message: 'Toggled the timer of the user'
+		});
+	}).catch(function(err) {
+		return next(err);
+	});
+};
+
 // Export all functions
 module.exports = {
 	getAllUsers: getAllUsers,
 	getUser: getUser,
 	updateStatus: updateStatus,
-	updateTime: updateTime
+	updateTime: updateTime,
+	toggleTimer: toggleTimer
 };

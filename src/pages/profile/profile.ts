@@ -67,6 +67,9 @@ export class ProfilePage {
 	// Variables for the timer that sets the user status to invisible
 	private invisibleTimer : any;
 
+	// Variable for enabling or disabling the timer
+	private isTimerEnabled : boolean;
+
 	// Hard coded for testing purposes
 	private userId = 1;
 
@@ -92,7 +95,8 @@ export class ProfilePage {
 			this.user = {
 				'firstName' : res.data.first_name,
 				'lastName' : res.data.last_name,
-				'freeUntil' : res.data.free_until
+				'freeUntil' : res.data.free_until,
+				'timerEnabled' : res.data.timer_enabled
 			};
 
 			// Check what should show up as the currently selected item in the status dropdown, as well as update the user object
@@ -108,6 +112,15 @@ export class ProfilePage {
 				default:
 					this.user['status'] = 'Invisible';
 					this.isInvisible = true;
+			}
+
+			// Show the enable or disable timer button depending on whether the timer is enabled or disabled
+			if (this.user['timerEnabled']) {
+				// Show the Enable Timer button
+				this.isTimerEnabled = true;
+			} else {
+				// Show the Disable Timer button
+				this.isTimerEnabled = false;
 			}
 
 			// Set the display time
@@ -249,10 +262,13 @@ export class ProfilePage {
 
 	// Show the Modal to set the time until which the user will be free
 	setTime() {
-		// Show the lightbox and Time Modal
-		this.isTimeModalVisible = true;
-		this.isSelectingHour = true;
-		this.isModalVisible = true;
+		// Check if the timer is disabled or not
+		if (this.isTimerEnabled) {
+			// Show the lightbox and Time Modal
+			this.isTimeModalVisible = true;
+			this.isSelectingHour = true;
+			this.isModalVisible = true;
+		}
 	};
 
 	// Update the view to reflect if the user has chosen an hour or minute
@@ -502,6 +518,41 @@ export class ProfilePage {
 
 			// Show the Minute Time Modal
 			this.isSelectingMinute = true;
+		}
+	};
+
+	// Enable or disable the timer
+	toggleTimer(boolean) {
+		// Check if the timer is being enabled or disabled
+		if (boolean) {
+			// Show the Enable Timer button
+			this.isTimerEnabled = true;
+			this.user['timerEnabled'] = true;
+		} else {
+			// Show the Disable Timer button
+			this.isTimerEnabled = false;
+			this.user['timerEnabled'] = false;
+
+			// Change the display on the clock
+			this.isTimeDisplaying = false;
+			this.displayHour = '--';
+			this.displayMinute = '--';
+			this.displayHalf = '--';
+
+			// Set the free until time to null
+			this.user['freeUntil'] = null;
+
+			// Update the user's free until time to null in the database using a PUT function
+			this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/time', this.user, {headers : this.headers}).map(res => res.json()).subscribe(res => {
+				// Print success message
+				console.log(res);
+
+				// Update whether the timer is enabled or not in the database using a PUT function
+				this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/toggle-timer', this.user, {headers : this.headers}).map(res => res.json()).subscribe(res => {
+					// Print success message
+					console.log(res);
+				});
+			});
 		}
 	};
  

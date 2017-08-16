@@ -279,7 +279,8 @@
 				<p class="profile__body__container__third__time" [ngClass]="{'profile__body__container__third__time--last' : isTimeDisplaying}">{{ displayHalf }}</p>
 			</div>
 		</div>
-		<button ion-button class="profile__body__button" color="light">Disable Timer</button>
+		<button ion-button *ngIf="isTimerEnabled" (click)="toggleTimer(false)" class="profile__body__button" color="light">Disable Timer</button>
+		<button ion-button *ngIf="!isTimerEnabled" (click)="toggleTimer(true)" class="profile__body__button" color="light">Enable Timer</button>
 
 		<ion-label class="profile__body__label">Account Settings</ion-label>
 		<button ion-button class="profile__body__button" color="dark">Account Settings</button>

@@ -9,6 +9,7 @@ router.get('/api/clustr/users', userDb.getAllUsers);
 router.get('/api/clustr/users/:id', userDb.getUser);
 router.put('/api/clustr/users/:id/status', userDb.updateStatus);
 router.put('/api/clustr/users/:id/time', userDb.updateTime);
+router.put('/api/clustr/users/:id/toggle-timer', userDb.toggleTimer);
 
 // Activities API
 router.get('/api/clustr/activities/:id', activitiesDb.getAllActivities);
