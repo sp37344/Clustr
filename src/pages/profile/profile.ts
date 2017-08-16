@@ -64,6 +64,9 @@ export class ProfilePage {
 	private displayHalf : string;
 	private isTimeDisplaying = false;
 
+	// Variables for the timer that sets the user status to invisible
+	private invisibleTimer : any;
+
 	// Hard coded for testing purposes
 	private userId = 1;
 
@@ -308,25 +311,77 @@ export class ProfilePage {
 				this.selectedMinute = '0' + this.selectedMinute;
 			}
 
+			this.selectedMinute = 24; // TEST
+
 			// Update the user object to reflect the updated time
 			var temp = tempHour + ':' + this.selectedMinute + ':00';
-			this.user['freeUntil'] = temp;
-			console.log(this.user['freeUntil']);
 
-			// Modify the time at which the user becomes inactive in the database using a PUT function
-			this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/time', this.user, {headers : this.headers}).map(res => res.json()).subscribe(res => {
-				// Print success message
-				console.log(res);
+			console.log(this.user['status']);
 
-				// Update the display
-				this.displayHour = this.selectedHour;
-				this.displayMinute = this.selectedMinute;
-				this.displayHalf = this.selectedHalf;
-				this.isTimeDisplaying = true;
+			// Check if the value is actually different to prevent unnecessary HTTP requests
+			if (this.user['freeUntil'] != temp) {
+				// Update the user object with the time
+				this.user['freeUntil'] = temp;
 
+				// Get the timestamp now and the timestamp for the user's set time
+				var now = new Date();
+				var nowTime = now.getTime();
+				var then = new Date(now.getFullYear(), now.getMonth(), now.getDate(), tempHour, this.selectedMinute);
+				var thenTime = then.getTime();
+
+				// If the timestamp then has passed within the day, increase the timestamp to the next day
+				if (thenTime <= nowTime) {
+					var day = 86400000;
+					thenTime = thenTime + day;
+				}
+
+				// Get the difference in milliseconds between the timestamps now and then
+				var timeDifference = thenTime - nowTime;
+				console.log(timeDifference);
+
+				// Clear the existing timer if necessary
+				if (this.invisibleTimer != null) {
+					clearInterval(this.invisibleTimer);
+				}
+
+				// Define scope of this for the setTimeout function
+				var self = this;
+
+				// Set the user's status to invisible when the appropriate timestamp arrives
+				this.invisibleTimer = setTimeout(function() {
+					// Set the user's timestamp to invisible
+					self.user['status'] = 'Invisible';
+
+					// Update the GUI 
+					self.isAvailable = false;
+					self.isBusy = false;
+					self.isInvisible = true;
+
+					// Call PUT endpoint to update the status of the user
+					self._http.put(self._configuration.apiUrl + 'users/' + self.userId + '/status', self.user, {headers: self.headers}).map(res => res.json()).subscribe(res => {
+						// Print success message
+						console.log(res);
+					});
+				}, timeDifference);
+
+				// Modify the time at which the user becomes inactive in the database using a PUT function
+				this._http.put(this._configuration.apiUrl + 'users/' + this.userId + '/time', this.user, {headers : this.headers}).map(res => res.json()).subscribe(res => {
+					// Print success message
+					console.log(res);
+
+					// Update the display
+					this.displayHour = this.selectedHour;
+					this.displayMinute = this.selectedMinute;
+					this.displayHalf = this.selectedHalf;
+					this.isTimeDisplaying = true;
+
+					// Hide the Time Modal and clear selected times
+					this.hideModal();
+				});
+			} else {
 				// Hide the Time Modal and clear selected times
 				this.hideModal();
-			});
+			}
 		}
 	};
 
