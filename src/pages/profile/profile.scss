@@ -1,0 +1,409 @@
+page-profile {
+	.profile__header {
+		background-color: #e2e2e2;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 15px 25px 5px 25px;
+	}
+
+	.profile__header__text {
+		width: 60%;
+		float: left;
+	}
+
+	.profile__header__text__logo-text {
+		font-family: "Capriola";
+		color: map-get($colors, primary);
+		display: inline-block;
+	}
+
+	.profile__header__text__logo-img {
+		display: inline-block;
+		width: 25px;
+		position: relative;
+		transform: translateY(5px);
+	}
+
+	.profile__header__text__name {
+		color: map-get($colors, mid);
+		font-size: 20px;
+		margin-top: -12px;
+		font-weight: bold;
+	}
+
+	.profile__body {
+		width: 100%;
+		padding: 0px 25px;
+	}
+
+	.profile__body__label {
+		color: color($colors, mid);
+		font-size: 18px;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-family: "Segoe UI";
+		margin: 0;
+		margin-left: 14px;
+		margin-top: 20px;
+	}
+
+	.profile__body__container {
+		width: 100%;
+		border: 1px solid map-get($colors, light);
+		border-radius: 15px;
+		padding: 20px;
+		transition: all 0.5s ease;
+	}
+
+	.profile__body__container:active {
+		background-color: map-get($colors, white-active);
+		box-shadow: 0 2px 3px 2px rgba(0, 0, 0, 0.2);
+	}
+
+	.profile__body__container__icon {
+		width: 20%;
+		float: left;
+	}
+
+	.profile__body__container__status {
+		width: 70%;
+		float: left;
+	}
+
+	.profile__body__container__status p {
+		font-size: 22px;
+		color: map-get($colors, dark);
+		position: relative;
+		transform: translateY(5px);
+	}
+
+	.profile__body__container__down {
+		width: 10%;
+		float: left;
+	}
+
+	.profile__body__container__down__icon {
+		position: relative;
+		transform: translateY(5px);
+	}
+
+	.profile__body__button {
+		box-shadow: none;
+		border-radius: 20px;
+		width: 100%;
+		text-transform: none;
+		font-family: "Segoe UI";
+		font-size: 22px;
+		font-weight: 400;
+		padding: 30px 0;
+		margin: auto;
+		margin-top: 5px;
+	}
+
+	.profile__body__container--list {
+		padding: 0;
+	}
+
+	.profile__body__container__item {
+		width: 100%;
+	}
+
+	.profile__body__container__item__text {
+		padding: 15px 20px;
+		color: map-get($colors, dark);
+		font-size: 22px;
+		border-top: 1px solid map-get($colors, light);
+	}
+
+	.profile__body__container__item__text--null {
+		text-align: center;
+		font-size: 20px;
+		line-height: 24px;
+	}
+
+	.profile__body__container__item__text--first {
+		border-top: none;
+	}
+
+	.profile__body__container__expand {
+		text-align: center;
+		width: 100%;
+		border-top: 1px solid map-get($colors, light);
+	}
+
+	.profile__body__container__expand img {
+		display: inline-block;
+		margin-right: 5px;
+	}
+
+	.profile__body__container__expand h3 {
+		text-align: center;
+		display: inline-block;
+		color: map-get($colors, mid);
+		font-size: 18px;
+		position: relative;
+		font-weight: bold;
+		transform: translateY(-6px);
+	}
+
+	.profile__body__container--time {
+		padding: 0;
+	}
+
+	.profile__body__container__third {
+		width: 33.333%;
+		float: left;
+		border-right: 1px solid map-get($colors, light);
+		padding: 15px 0;
+		text-align: center;
+	}
+
+	.profile__body__container__third--last {
+		border: none;
+	}
+
+	.profile__body__container__third__time {
+		font-family: "Segoe UI";
+		font-weight: bold;
+		font-size: 40px;
+	}
+
+	.profile__body__container__third__time--last {
+		font-size: 32px;
+		position: relative;
+		transform: translateY(6px);
+	}
+
+	.time {
+		width: 80%;
+		background-color: map-get($colors, white);
+		margin: 0 auto;
+		position: relative;
+		text-align: center;
+		top: 50%;
+		transform: translateY(-60%);
+	}
+
+	.time__header {
+		width: 100%;
+		background-color: map-get($colors, primary);
+		padding: 15px 0;
+	}
+
+	.time__header__text {
+		font-weight: 400;
+		margin: 0;
+		color: map-get($colors, white);
+		font-size: 28px;
+	}
+
+	.time__body {
+		width: 100%;
+		padding: 20px;
+		background-color: map-get($colors, white);
+	}
+
+	.time__body__clock {
+		width: 220px;
+		height: 220px;
+		border-radius: 100%;
+		position: relative;
+		margin: 0 auto;
+		margin-bottom: 30px;
+	}
+
+	.time__body__clock__circle {
+		background-color: map-get($colors, primary);
+		width: 35px;
+		height: 35px;
+		border-radius: 100%;
+		position: absolute;
+		transition: all 0.5s ease;
+	}
+
+	.time__body__clock__circle:active {
+		background-color: map-get($colors, primary-active);
+	}
+
+	.time__body__clock__circle--twelve {
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.time__body__clock__circle--one {
+		top: 14.737px;
+		right: 55px;
+		transform: translate(25%, -10%);
+	}
+
+	.time__body__clock__circle--two {
+		top: 55px;
+		right: 14.737px;
+		transform: translate(10%, -30%);
+	}
+
+	.time__body__clock__circle--three {
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.time__body__clock__circle--four {
+		bottom: 55px;
+		right: 14.737px;
+		transform: translate(10%, 30%);
+	}
+
+	.time__body__clock__circle--five {
+		bottom: 14.737px;
+		right: 55px;
+		transform: translate(25%, 10%);
+	}
+
+	.time__body__clock__circle--six {
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.time__body__clock__circle--seven {
+		bottom: 14.737px;
+		left: 55px;
+		transform: translate(-25%, 10%);
+	}
+
+	.time__body__clock__circle--eight {
+		left: 14.737px;
+		bottom: 55px;
+		transform: translate(-10%, 30%);
+	}	
+
+	.time__body__clock__circle--nine {
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.time__body__clock__circle--ten {
+		left: 14.737px;
+		top: 55px;
+		transform: translate(-10%, -30%);
+	}
+
+	.time__body__clock__circle--eleven {
+		top: 14.737px;
+		left: 55px;
+		transform: translate(-25%, -10%);
+	}	
+
+	.time__body__clock__circle__text {
+		font-family: "Segoe UI";
+		font-size: 18px;
+		font-weight: 600;
+		color: map-get($colors, white);
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.time__body__clock__selected {
+		width: 100%;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.time__body__clock__selected h2 {
+		color: map-get($colors, dark);
+		font-size: 90px;
+	}
+
+	.time__body__options {
+		width: 100%;
+	}
+
+	.time__body__options__previous {
+		width: 33.333%;
+		float: left;
+		text-align: left;
+	}
+
+	.time__body__options__cancel {
+		width: 33.333%;
+		float: left;
+	}
+
+	.time__body__options__next {
+		width: 33.333%;
+		float: left;
+		text-align: right;
+	}
+
+	.time__body__options__previous img, .time__body__options__next img {
+		width: 30px;
+	}
+
+	.time__body__options__cancel__button {
+		background-color: map-get($colors, light);
+		padding: 10px 15px;
+		border-radius: 10px;
+		transition: all 0.5s ease;
+	}
+
+	.time__body__options__cancel__button:active {
+		background-color: map-get($colors, light-active);
+	}
+
+	.time__body__options p {
+		font-family: "Segoe UI";
+		color: map-get($colors, white);
+		text-transform: uppercase;
+		font-size: 18px;
+	}
+
+	.time__body .profile__body__container--time {
+		background-color: map-get($colors, white-active);
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.time__body .profile__body__container--time:active {
+		background-color: none;
+		box-shadow: none;
+	}
+
+	.profile__body__container__half {
+		width: 50%;
+		float: left;
+		border-right: 1px solid map-get($colors, light);
+		padding: 15px 0;
+		text-align: center;
+		transition: all 0.5s ease;
+	}
+
+	.profile__body__container__half--last {
+		border-right: none;
+	}
+
+	.profile__body__container__half--active-left {
+		background-color: map-get($colors, primary);
+		border-radius: 15px 0 0 15px;
+	}
+
+	.profile__body__container__half--active-right {
+		background-color: map-get($colors, primary);
+		border-radius: 0 15px 15px 0;
+	}
+
+	.profile__body__container__half__time {
+		font-size: 30px;
+		font-weight: bold;
+	}
+
+	.profile__body__container__half__time--active {
+		color: map-get($colors, white);
+	}
+}

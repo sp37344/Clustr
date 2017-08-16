@@ -1,0 +1,287 @@
+<div *ngIf="isModalVisible" class="lightbox">
+	<div *ngIf="isStatusModalVisible" class="modal">
+		<div class="modal__body">
+			<div (click)="selectStatus('Available')" class="modal__body__item clearfix">
+				<div class="modal__body__item__icon">
+					<div class="status-button">
+						<div class="status-button__outer">
+							<div class="status-button__outer__mid">
+								<div class="status-button__outer__mid__inner status-button__outer__mid__inner--available"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal__body__item__text">
+					<p>Available</p>
+				</div>
+				<div class="modal__body__item__checkbox">
+					<img *ngIf="isAvailableSelected" src="assets/icon/icon_check.png"/>
+				</div>
+			</div>
+			<div (click)="selectStatus('Busy')" class="modal__body__item clearfix">
+				<div class="modal__body__item__icon">
+					<div class="status-button">
+						<div class="status-button__outer">
+							<div class="status-button__outer__mid">
+								<div class="status-button__outer__mid__inner status-button__outer__mid__inner--busy"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal__body__item__text">
+					<p>Busy</p>
+				</div>
+				<div class="modal__body__item__checkbox">
+					<img *ngIf="isBusySelected" src="assets/icon/icon_check.png"/>
+				</div>
+			</div>
+			<div (click)="selectStatus('Invisible')" class="modal__body__item modal__body__item--last clearfix">
+				<div class="modal__body__item__icon">
+					<div class="status-button">
+						<div class="status-button__outer">
+							<div class="status-button__outer__mid">
+								<div class="status-button__outer__mid__inner status-button__outer__mid__inner--invisible"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal__body__item__text">
+					<p>Invisible</p>
+				</div>
+				<div class="modal__body__item__checkbox">
+					<img *ngIf="isInvisibleSelected" src="assets/icon/icon_check.png"/>
+				</div>
+			</div>
+		</div>
+		<div class="modal__buttons clearfix">
+			<div (click)="hideModal()" class="modal__buttons__button modal__buttons__button--left">
+				<p>Cancel</p>
+			</div>
+			<div (click)="updateStatus()" class="modal__buttons__button modal__buttons__button--primary modal__buttons__button--right">
+				<p>Update</p>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="isTimeModalVisible && isSelectingHour" class="time">
+		<div class="time__header clearfix">
+			<h1 class="time__header__text">Hour</h1>
+		</div>
+		<div class="time__body">
+			<div class="time__body__clock">
+				<div class="time__body__clock__selected">
+					<h2>{{ selectedTime }}</h2>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--twelve">
+					<p (click)="selectTime(12)" class="time__body__clock__circle__text">12</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--one">
+					<p (click)="selectTime(1)" class="time__body__clock__circle__text">1</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--two">
+					<p (click)="selectTime(2)" class="time__body__clock__circle__text">2</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--three">
+					<p (click)="selectTime(3)" class="time__body__clock__circle__text">3</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--four">
+					<p (click)="selectTime(4)" class="time__body__clock__circle__text">4</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--five">
+					<p (click)="selectTime(5)" class="time__body__clock__circle__text">5</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--six">
+					<p (click)="selectTime(6)" class="time__body__clock__circle__text">6</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--seven">
+					<p (click)="selectTime(7)" class="time__body__clock__circle__text">7</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--eight">
+					<p (click)="selectTime(8)" class="time__body__clock__circle__text">8</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--nine">
+					<p (click)="selectTime(9)" class="time__body__clock__circle__text">9</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--ten">
+					<p (click)="selectTime(10)" class="time__body__clock__circle__text">10</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--eleven">
+					<p (click)="selectTime(11)" class="time__body__clock__circle__text">11</p>
+				</div>
+			</div>
+			<div class="time__body__options clearfix">
+				<div class="time__body__options__previous">
+					<p>Hi</p>
+				</div>
+				<div class="time__body__options__cancel">
+					<button (click)="hideModal()" class="time__body__options__cancel__button">
+						<p>Cancel</p>
+					</button>
+				</div>
+				<div class="time__body__options__next">
+					<img (click)="showNextTimeModal()" src="assets/icon/icon_next.png"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="isTimeModalVisible && isSelectingMinute" class="time">
+		<div class="time__header clearfix">
+			<h1 class="time__header__text">Minute</h1>
+		</div>
+		<div class="time__body">
+			<div class="time__body__clock">
+				<div class="time__body__clock__selected">
+					<h2>{{ selectedTime }}</h2>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--twelve">
+					<p (click)="selectTime(00)" class="time__body__clock__circle__text">00</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--one">
+					<p (click)="selectTime(05)" class="time__body__clock__circle__text">05</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--two">
+					<p (click)="selectTime(10)" class="time__body__clock__circle__text">10</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--three">
+					<p (click)="selectTime(15)" class="time__body__clock__circle__text">15</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--four">
+					<p (click)="selectTime(20)" class="time__body__clock__circle__text">20</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--five">
+					<p (click)="selectTime(25)" class="time__body__clock__circle__text">25</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--six">
+					<p (click)="selectTime(30)" class="time__body__clock__circle__text">30</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--seven">
+					<p (click)="selectTime(35)" class="time__body__clock__circle__text">35</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--eight">
+					<p (click)="selectTime(40)" class="time__body__clock__circle__text">40</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--nine">
+					<p (click)="selectTime(45)" class="time__body__clock__circle__text">45</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--ten">
+					<p (click)="selectTime(50)" class="time__body__clock__circle__text">50</p>
+				</div>
+				<div class="time__body__clock__circle time__body__clock__circle--eleven">
+					<p (click)="selectTime(55)" class="time__body__clock__circle__text">55</p>
+				</div>
+			</div>
+			<div class="time__body__options clearfix">
+				<div class="time__body__options__previous">
+					<img (click)="showPreviousTimeModal()" src="assets/icon/icon_previous.png"/>
+				</div>
+				<div class="time__body__options__cancel">
+					<button (click)="hideModal()" class="time__body__options__cancel__button">
+						<p>Cancel</p>
+					</button>
+				</div>
+				<div class="time__body__options__next">
+					<img (click)="showNextTimeModal()" src="assets/icon/icon_next.png"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="isTimeModalVisible && isSelectingHalf" class="time">
+		<div class="time__header clearfix">
+			<h1 class="time__header__text">Time of Day</h1>
+		</div>
+		<div class="time__body">
+			<div class="time__body__clock">
+				<div class="profile__body__container profile__body__container--time clearfix">
+					<div (click)="selectHalf('AM')" class="profile__body__container__half" [ngClass]="{'profile__body__container__half--active-left' : isAmSelected}">
+						<p class="profile__body__container__half__time" [ngClass]="{'profile__body__container__half__time--active' : isAmSelected}">AM</p>
+					</div>
+					<div (click)="selectHalf('PM')" class="profile__body__container__half profile__body__container__half--last" [ngClass]="{'profile__body__container__half--active-right' : isPmSelected}">
+						<p class="profile__body__container__half__time" [ngClass]="{'profile__body__container__half__time--active' : isPmSelected}">PM</p>
+					</div>
+				</div>
+			</div>
+			<div class="time__body__options clearfix">
+				<div class="time__body__options__previous">
+					<img (click)="showPreviousTimeModal()" src="assets/icon/icon_previous.png"/>
+				</div>
+				<div class="time__body__options__cancel">
+					<button (click)="hideModal()" class="time__body__options__cancel__button">
+						<p>Cancel</p>
+					</button>
+				</div>
+				<div class="time__body__options__next">
+					<img (click)="updateTime()" src="assets/icon/icon_confirm.png"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ion-content>
+	<div class="profile__header clearfix">
+		<div class="profile__header__text">
+			<h1 class="profile__header__text__logo-text">clustr</h1>
+			<img class="profile__header__text__logo-img" src="assets/media/img_penguin_primary.png"/>
+			<h1 class="profile__header__text__name">{{ user?.firstName }} {{ user?.lastName }}</h1>
+		</div>
+	</div>
+
+	<div class="profile__body">
+		<ion-label class="profile__body__label">My Status</ion-label>
+		<div (click)="showStatusModal()" class="profile__body__container clearfix">
+			<div class="profile__body__container__icon">
+				<div class="status-button">
+					<div class="status-button__outer">
+						<div class="status-button__outer__mid">
+							<div *ngIf="isAvailable" class="status-button__outer__mid__inner status-button__outer__mid__inner--available"></div>
+							<div *ngIf="isBusy" class="status-button__outer__mid__inner status-button__outer__mid__inner--busy"></div>
+							<div *ngIf="isInvisible" class="status-button__outer__mid__inner status-button__outer__mid__inner--invisible"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="profile__body__container__status">
+				<p>{{ user?.status }}</p>
+			</div>
+			<div class="profile__body__container__down">
+				<img class="profile__body__container__down__icon" src="assets/icon/icon_down.png"/>
+			</div>
+		</div>
+
+		<ion-label class="profile__body__label">Suggested Activities</ion-label>
+		<div class="profile__body__container profile__body__container--list">
+			<div *ngIf="areActivitiesEmpty" class="profile__body__container__item">
+				<p class="profile__body__container__item__text profile__body__container__item__text--null profile__body__container__item__text--first">You have no activities right now. Add some!</p>
+			</div>
+			<div *ngFor="let activity of activities|slice:0:activitiesLimit let i = index; first as isFirst" class="profile__body__container__item">
+				<p *ngIf="i < activitiesLimit" class="profile__body__container__item__text" [ngClass]="{ 'profile__body__container__item__text--first' : isFirst }">{{ activity.name }}</p>
+			</div>
+			<div *ngIf="!areAllActivitiesVisible" class="profile__body__container__expand">
+				<h3 (click)="showAllActivities()">see {{ activitiesRemainder }} more <span *ngIf="hasSingleActivity">activity</span><span *ngIf="hasMultipleActivities">activities</span></h3>
+			</div>
+			<div *ngIf="areActivitiesCollapsible" class="profile__body__container__expand">
+				<h3 (click)="collapseActivities()">see less activities</h3>
+			</div>
+		</div>
+		<button ion-button (click)="goToEditActivitiesPage()" class="profile__body__button" color="primary">Edit Activities</button>
+
+		<ion-label class="profile__body__label">Free Until</ion-label>
+		<div (click)="setTime()" class="profile__body__container profile__body__container--time clearfix">
+			<div class="profile__body__container__third">
+				<p class="profile__body__container__third__time">{{ displayHour }}</p>
+			</div>
+			<div class="profile__body__container__third">
+				<p class="profile__body__container__third__time">{{ displayMinute }}</p>
+			</div>
+			<div class="profile__body__container__third profile__body__container__third--last">
+				<p class="profile__body__container__third__time" [ngClass]="{'profile__body__container__third__time--last' : isTimeDisplaying}">{{ displayHalf }}</p>
+			</div>
+		</div>
+		<button ion-button class="profile__body__button" color="light">Disable Timer</button>
+
+		<ion-label class="profile__body__label">Account Settings</ion-label>
+		<button ion-button class="profile__body__button" color="dark">Account Settings</button>
+	</div>
+</ion-content>

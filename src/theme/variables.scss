@@ -22,8 +22,67 @@ $app-direction: ltr;
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
+// Typefaces
+@font-face {
+	font-family: "Capriola";
+	src: url("Capriola-Regular.ttf") type("truetype");
+}
 
+@font-face {
+	font-family: "Segoe UI";
+	src: url("Segoe-UI.ttf") type("truetype");
+}
 
+// General Classes
+* {
+	box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	font-family: "Segoe UI";
+	margin: 0;
+	padding: 0;
+}
+
+// Clearfix Hack
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
+
+// Custom Icons 
+.ion-md-profile {
+	content: url("../assets/icon/icon_profile.png");
+	width: 20px;
+	height: auto;
+}
+
+.ion-md-map {
+	content: url("../assets/icon/icon_map.png");
+	width: 20px;
+	height: auto;
+}
+
+.ion-md-message {
+	content: url("../assets/icon/icon_message.png");
+	width: 20px;
+	height: auto;
+}
+
+.ion-md-friends {
+	content: url("../assets/icon/icon_friends.png");
+	width: 20px;
+	height: auto;
+}
 
 // Named Color Variables
 // --------------------------------------------------
@@ -34,13 +93,306 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222
+  primary:        #3eacff,
+  primary-active: #0793f7,
+  secondary:      #ff3e73,
+  tertiary:       #ffd83e,
+  white:          #fff,
+  white-active:   #ddd,
+  light:          #c5c5c5,
+  light-active:   #a5a5a5,
+  mid:		      #777,
+  dark:           #444,
+  facebook:       #3b5998
 );
 
+// Text
+h1, h2, h3, h4, h5, h6, p {
+	color: color($colors, dark);
+}
+
+// Tabs Page
+$tabs-background: color($colors, primary);
+$tabs-md-tab-color-active: color($colors, white);
+$tabs-md-tab-color-inactive: color($colors, white);
+$tabs-md-tab-icon-size: 3rem;
+
+// Header
+.header {
+	background-color: color($colors, primary);
+	padding: 15px 0;
+}
+
+.header__button {
+	width: 15%;
+	float: left;
+	text-align: center;
+}
+
+.header__button img {
+	width: 30px;
+	height: auto;
+}
+
+.header__title {
+	width: 70%;
+	float: left;
+	text-align: center;
+	margin: 0;
+}
+
+.header__title__text {
+	font-family: "Segoe UI";
+	font-weight: 400;
+	color: color($colors, white);
+	font-size: 26px;
+	margin: 0;
+	position: relative;
+}
+
+// Modal
+.modal {
+	z-index: 1000;
+	width: 80%;
+	display: inline-block;
+	position: relative;
+	top: 50%;
+	transform: translateY(-65%);
+}
+
+.modal__body {
+	width: 100%;
+	border-radius: 15px 15px 0 0;
+	background-color: #fff;
+}
+
+.modal__body--singular {
+	padding: 20px 25px;
+}
+
+.modal__body p {
+	font-size: 22px;
+	color: color($colors, dark);
+}
+
+.modal__body__input {
+	width: 100%;
+	margin: 20px 0;
+	font-size: 20px;
+	color: color($colors, dark);
+	border: none;
+	border-bottom: 2px solid color($colors, light);
+}
+
+.modal__body__input:focus {
+	border-bottom-color: color($colors, primary);
+}
+
+.modal__body__item {
+	background-color: transparent;
+	padding: 15px 20px;
+	width: 100%;
+	border-bottom: 1px solid map-get($colors, light);
+	transition: all 0.5s ease;
+}
+
+.modal__body__item:active {
+	background-color: linear-gradient(to top, rgba(0, 13, 221, 1), rgba(0, 13, 221, 0));
+}
+
+.modal__body__item--last {
+	border-bottom: none;
+}
+
+.modal__body__item__icon {
+	width: 20%;
+	float: left;
+}
+
+.modal__body__item__text {
+	text-align: left;
+	width: 70%;
+	float: left;
+	color: color($colors, dark);
+	position: relative;
+	transform: translateY(5px);
+}
+
+.modal__body__item__checkbox {
+	width: 10%;
+	float: left;
+}
+
+.modal__body__item__checkbox img {
+	position: relative;
+	transform: translateY(3px);
+}
+
+.modal__buttons {
+	width: 100%;
+}
+
+.modal__buttons__button {
+	padding: 15px 20px;
+	width: 100%;
+	text-align: center;
+	background-color: color($colors, light);
+	border-radius: 0 0 15px 15px;
+	transition: all 0.5s ease;
+}
+
+.modal__buttons__button:active {
+	background-color: color($colors, light-active);
+}
+
+.modal__buttons__button--primary {
+	background-color: color($colors, primary);
+}
+
+.modal__buttons__button--primary:active {
+	background-color: color($colors, primary-active);
+}
+
+.modal__buttons__button--left {
+	border-radius: 0 0 0 15px;
+	float: left;
+	width: 50%;
+}
+
+.modal__buttons__button--right {
+	border-radius: 0 0 15px 0;
+	float: left;
+	width: 50%;
+}
+
+.modal__buttons__button p {
+	font-size: 22px;
+	text-transform: uppercase;
+	color: color($colors, white);
+}
+
+// Lightbox
+.lightbox {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 500;
+	position: fixed;
+	text-align: center;
+}
+
+// Menu
+.menu {
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	padding: 0 25px 30px 25px;
+}
+
+.menu__button {
+	width: 100%;
+	border-radius: 15px;
+	padding: 15px 0;
+	margin-top: 10px;
+	background-color: color($colors, white);
+	transition: all 0.5s ease;
+}
+
+.menu__button:active {
+	background-color: color($colors, white-active);
+}
+
+.menu__button p {
+	font-size: 22px;
+	font-family: "Segoe UI";
+	color: color($colors, dark);
+	font-weight: 400;
+}
+
+.menu__button--primary {
+	background-color: color($colors, primary);
+}
+
+.menu__button--primary:active {
+	background-color: color($colors, primary-active);
+}
+
+.menu__button--primary p {
+	color: color($colors, white);
+}
+
+// Status Button
+.status-button {
+	width: 34px;
+	height: 34px;
+}
+
+.status-button__outer {
+	width: 100%;
+	height: 100%;
+	background-color: color($colors, light);
+	border-radius: 100%;
+	text-align: center;
+}
+
+.status-button__outer__mid {
+	width: 26px;
+	height: 26px;
+	background-color: #fff;
+	border-radius: 100%;
+	display: inline-block;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: center;
+}
+
+.status-button__outer__mid__inner {
+	width: 20px;
+	height: 20px;
+	border-radius: 100%;
+	display: inline-block;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.status-button__outer__mid__inner--available {
+	background-color: color($colors, primary);
+}
+
+.status-button__outer__mid__inner--busy {
+	background-color: color($colors, tertiary);
+}
+
+.status-button__outer__mid__inner--invisible {
+	background-color: color($colors, white-active);
+}
+
+// List
+.list {
+	background-color: color($colors, white);
+	width: 100%;
+}
+
+.list__item {
+	width: 100%;
+	padding: 15px 25px;
+	border-bottom: 1px solid color($colors, light);
+	transition: all 0.5s ease;
+}
+
+.list__item:active {
+	background-color: color($colors, white-active);
+}
+
+.list__item__text {
+	font-family: "Segoe UI";
+	font-size: 22px;
+	color: color($colors, dark);
+}
 
 // App iOS Variables
 // --------------------------------------------------
