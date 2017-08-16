@@ -327,8 +327,6 @@ export class ProfilePage {
 				this.selectedMinute = '0' + this.selectedMinute;
 			}
 
-			this.selectedMinute = 24; // TEST
-
 			// Update the user object to reflect the updated time
 			var temp = tempHour + ':' + this.selectedMinute + ':00';
 
