@@ -268,7 +268,7 @@
 		<button ion-button (click)="goToEditActivitiesPage()" class="profile__body__button" color="primary">Edit Activities</button>
 
 		<ion-label class="profile__body__label">Free Until</ion-label>
-		<div (click)="setTime()" class="profile__body__container profile__body__container--time clearfix">
+		<div (click)="setTime()" class="profile__body__container profile__body__container--time clearfix" [ngClass]="{'profile__body__container--inactive' : !isTimerEnabled}">
 			<div class="profile__body__container__third">
 				<p class="profile__body__container__third__time">{{ displayHour }}</p>
 			</div>

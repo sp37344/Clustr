@@ -151,6 +151,10 @@ page-profile {
 		padding: 0;
 	}
 
+	.profile__body__container--inactive {
+		background-color: map-get($colors, white-active);
+	}
+
 	.profile__body__container__third {
 		width: 33.333%;
 		float: left;

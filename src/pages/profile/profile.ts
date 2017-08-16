@@ -533,6 +533,9 @@ export class ProfilePage {
 			this.isTimerEnabled = false;
 			this.user['timerEnabled'] = false;
 
+			// Clear the timeout function
+			clearInterval(this.invisibleTimer);
+
 			// Change the display on the clock
 			this.isTimeDisplaying = false;
 			this.displayHour = '--';
