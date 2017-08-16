@@ -6,6 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { Configuration } from './app.config';
 
+import { GoogleMaps } from '@ionic-native/google-maps';
+
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -47,6 +49,7 @@ import { FriendsPage } from '../pages/friends/friends';
     SplashScreen,
     HttpModule,
     Configuration,
+    GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
