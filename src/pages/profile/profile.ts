@@ -22,6 +22,12 @@ export class ProfilePage {
 	// Headers
 	private headers : any;
 
+	// Variables for storing the user's geographical coordinates
+	private latitude : number;
+	private longitude : number;
+	private updateLocation : any;
+	private updateLocationInterval = 5000;
+
 	// Variables for checking current status so that the right status shows as the selected item in the status dropdown
 	private isAvailable = false;
 	private isBusy = false;
@@ -118,7 +124,8 @@ export class ProfilePage {
 			// Get location if the user is active (available or busy)
 			if (this.user['status'] == 'Available' || this.user['status'] == 'Busy') {
 				this._http.get(this._configuration.apiUrl + 'active-users/' + this.userId).map(res => res.json()).subscribe(res => {
-					console.log('Fire');
+					// Update the user's geographical coordinates every few seconds
+					this.setLocationInterval();
 				}, err => {
 					// Check if an Error 500 is shown, indicating that there is no requested user in the database
 					if (err.status == 500) {
@@ -149,19 +156,58 @@ export class ProfilePage {
 	addUser() {
 		// Get geographical coordinates of the user
 		this._geolocation.getCurrentPosition().then(location => {
+			// Save the user's latitudinal and longitudinal coordinates
+			this.latitude = location.coords.latitude;
+			this.longitude = location.coords.longitude;
+
 			// Create an object for the user to add into the database
 			var body = {
 				id: this.userId,
-				latitude: location.coords.latitude,
-				longitude: location.coords.longitude
+				latitude: this.latitude,
+				longitude: this.longitude
 			};
 
 			// Add the user to the active users database using a POST function
 			this._http.post(this._configuration.apiUrl + 'active-users', body, {headers : this.headers}).map(res => res.json()).subscribe(res => {
 				// Print success message
 				console.log(res);
+
+				// Get the user's geographical coordinates every few seconds
+				this.setLocationInterval();
 			});
 		});
+	};
+
+	// Get geographical coordinates and update the database
+	getCoordinates() {
+		// Get geographical coordinates of the user
+		this._geolocation.getCurrentPosition().then(location => {
+			// Save the user's latitudinal and longitudinal coordinates
+			this.latitude = location.coords.latitude;
+			this.longitude = location.coords.longitude;
+
+			// Create an object for the user to update the database with
+			var body = {
+				latitude: this.latitude,
+				longitude: this.longitude
+			};
+
+			// Update the user's geographical coordinates in the database using a PUT function
+			this._http.put(this._configuration.apiUrl + 'active-users/' + this.userId + '/location', body, {headers : this.headers}).map(res => res.json()).subscribe(res => {
+				// Print success message
+				console.log(res);
+			});
+		});
+	};
+
+	// Set interval to get coordinates
+	setLocationInterval() {
+		// Update the user's location every few seconds
+		var self = this;
+		this.updateLocation = setInterval(function() {
+			// Update the user's geographical coordinates in the database
+			self.getCoordinates();
+		}, this.updateLocationInterval);
 	};
 
 	// Show status Modal, where user is able to set status to available, busy, or invisible
@@ -208,16 +254,42 @@ export class ProfilePage {
 	updateStatus() {
 		// Update body to reflected selected status and update GUI so that selected option in the dropdown is updated
 		if (this.isAvailableSelected) {
+			// If the user was previously invisible, add the user to the active users table
+			if (this.isInvisible) {
+				this.addUser();
+			}
+
+			// Update the user's status to available
 			this.user['status'] = 'Available';
 			this.isAvailable = true;
 			this.isBusy = false;
 			this.isInvisible = false;
 		} else if (this.isBusySelected) {
+			// If the user was previously invisible, add the user to the active users table
+			if (this.isInvisible) {
+				this.addUser();
+			}
+
+			// Update the user's status to busy
 			this.user['status'] = 'Busy';
 			this.isAvailable = false;
 			this.isBusy = true;
 			this.isInvisible = false;
 		} else {
+			// Clear the interval that constantly updates the user's location
+			clearInterval(this.updateLocation);
+
+			// Delete the user from the active users table using a DELETE function
+			this._http.delete(this._configuration.apiUrl + 'active-users/' + this.userId).map(res => res.json()).subscribe(res => {
+				// Print success message
+				console.log(res);
+
+				// Clear the user's location
+				this.latitude = null;
+				this.longitude = null;
+			});
+
+			// Update the user's status to invisible
 			this.user['status'] = 'Invisible';
 			this.isAvailable = false;
 			this.isBusy = false;
@@ -391,10 +463,8 @@ export class ProfilePage {
 					clearInterval(this.invisibleTimer);
 				}
 
-				// Define scope of this for the setTimeout function
-				var self = this;
-
 				// Set the user's status to invisible when the appropriate timestamp arrives
+				var self = this;
 				this.invisibleTimer = setTimeout(function() {
 					// Set the user's timestamp to invisible
 					self.user['status'] = 'Invisible';
