@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Events } from 'ionic-angular';
 import {
 	GoogleMaps,
 	GoogleMap,
@@ -15,60 +16,103 @@ import {
 })
 
 export class MapPage {
+	// Variables for storing the user location
+	private location : any;
+
+	// Variables for map display
+	private isMapLoaded = false;
+	private element : HTMLElement;
+	private map : GoogleMap;
+	private myCamPosition : CameraPosition;
+	private myMarkerOptions : MarkerOptions;
+
 	// Constructor
-	constructor(private _googleMaps : GoogleMaps) {}
+	constructor(private _events : Events, private _googleMaps : GoogleMaps) {
+		// Subscribe to an event that updates the user's position
+		this._events.subscribe('updateUserPosition', location => {
+			// Save the user's location in an object
+			this.location = location;
+			console.log(this.location);
+
+			// Check if the map is already displaying
+			if (this.isMapLoaded) {
+				// Update the user's marker
+				this.myCamPosition = {
+					target: {
+						lat: this.location.latitude,
+						lng: this.location.longitude
+					}
+				};
+
+				// Move the map's camera to position
+				this.map.moveCamera(this.myCamPosition);
+
+				// Create new marker
+				this.myMarkerOptions = {
+					position: {
+						lat: this.location.latitude,
+						lng: this.location.longitude
+					}
+				};
+			} else {
+				// Create the map
+				this.loadMap();
+			}
+		});
+	}
 
 	// Load map only after view is initialized
-	ngAfterViewInit() {
-		this.loadMap();
-	}
+	// ngAfterViewInit() {
+	// 	this.loadMap();
+	// }
 
 	// Load map
 	loadMap() {
 		// Create a new app by passing HTMLElement
-		let element : HTMLElement = document.getElementById('map');
-		let map : GoogleMap = this._googleMaps.create(element);
+		this.element = document.getElementById('map');
+		this.map = this._googleMaps.create(this.element);
 
 		// Listen for the map to be created before adding to or modifying the map
-		map.one(GoogleMapsEvent.MAP_READY).then(() => {
+		this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
 			// Alert the console that the map is ready
 			console.log('Map is ready!');
 
 			// Set camera options
-			map.setOptions({
+			this.map.setOptions({
 				controls: {
 					myLocationButton: true
 				}
 			});
 
-			// Create a latitude/longitude object
-
 			// Create a CameraPosition object
-			let myCamPosition : CameraPosition = {
+			this.myCamPosition = {
 				target: {
-					lat: 43.0741904,
-					lng: -89.3809802
+					lat: this.location.latitude,
+					lng: this.location.longitude
 				},
 				zoom: 16,
 				tilt: 30
 			};
 
 			// Move the map's camera to position
-			map.moveCamera(myCamPosition);
+			this.map.moveCamera(this.myCamPosition);
 
 			// Create new marker
-			let myMarkerOptions : MarkerOptions = {
+			this.myMarkerOptions = {
 				position: {
-					lat: 43.0741904,
-					lng: -89.3809802
+					lat: this.location.latitude,
+					lng: this.location.longitude
 				},
 				title: 'You'
 			};
 
 			// Add marker to the map
-			map.addMarker(myMarkerOptions).then((marker : Marker) => {
+			this.map.addMarker(this.myMarkerOptions).then((marker : Marker) => {
 				marker.showInfoWindow();
 			});
+
+			// Update boolean to reflect that map is displaying
+			this.isMapLoaded = true;
 		});
 	};
 }

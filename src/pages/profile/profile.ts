@@ -196,6 +196,9 @@ export class ProfilePage {
 			this._http.put(this._configuration.apiUrl + 'active-users/' + this.userId + '/location', body, {headers : this.headers}).map(res => res.json()).subscribe(res => {
 				// Print success message
 				console.log(res);
+
+				// Publish an event
+				this._events.publish('updateUserPosition', body);
 			});
 		});
 	};

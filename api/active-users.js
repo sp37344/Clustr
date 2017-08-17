@@ -10,8 +10,8 @@ var localhost = 'http://192.168.42.154';
 
 var pgp = require('pg-promise')(options);
 var db = pgp({
-	host: 'localhost',
-	// host: '192.168.42.154',
+	// host: 'localhost',
+	host: '192.168.42.154',
 	port: 5432,
 	database: 'clustr',
 	user: 'postgres',
@@ -58,7 +58,6 @@ function updateLocation(req, res, next) {
 	db.none('UPDATE active_users SET latitude = $1, longitude = $2 WHERE id=$3', [parseFloat(req.body.latitude), parseFloat(req.body.longitude), parseInt(req.params.id)]).then(function(data) {
 		res.status(200).json({
 			status: 'success',
-			data: data,
 			message: 'Updated location of the user'
 		});
 	}).catch(function(err) {
