@@ -55,9 +55,21 @@ function updateLocation(req, res, next) {
 	});
 };
 
+function removeActiveUser(req, res, next) {
+	db.result('DELETE FROM active_users WHERE id = $1', parseInt(req.params.id)).then(function(result) {
+		res.status(200).json({
+			status: 'success',
+			message: `Removed ${result.rowCount} active user`
+		});
+	}).catch(function(err) {
+		return next(err);
+	});
+};
+
 // Export all functions
 module.exports = {
 	getActiveUser: getActiveUser,
 	getActiveFriends: getActiveFriends,
-	updateLocation: updateLocation
+	updateLocation: updateLocation,
+	removeActiveUser: removeActiveUser
 };

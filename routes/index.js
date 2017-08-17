@@ -22,6 +22,7 @@ router.delete('/api/clustr/activities/:id', activitiesDb.deleteActivity);
 router.get('/api/clustr/active-users/:id', activeUsersDb.getActiveUser);
 router.get('/api/clustr/active-users/friends/:friends', activeUsersDb.getActiveFriends);
 router.put('/api/clustr/active-users/:id/location', activeUsersDb.updateLocation);
+router.delete('/api/clustr/active-users/:id', activeUsersDb.removeActiveUser);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
