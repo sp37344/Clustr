@@ -48,7 +48,7 @@ function addActivity(req, res, next) {
 
 // Edit an activity in the user's suggested activities list
 function editActivity(req, res, next) {
-	db.none('UPDATE activities SET name=$1 WHERE id=$2', [req.body.name, parseInt(req.params.id)]).then(function() {
+	db.none('UPDATE activities SET name = $1 WHERE id = $2', [req.body.name, parseInt(req.params.id)]).then(function() {
 		res.status(200).json({
 			status: 'success',
 			message: 'Updated activity'

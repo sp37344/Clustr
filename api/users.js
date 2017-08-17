@@ -48,7 +48,7 @@ function getUser(req, res, next) {
 
 // Update a single user's status
 function updateStatus(req, res, next) {
-	db.none('UPDATE users SET status=$1 WHERE id=$2', [req.body.status, parseInt(req.params.id)]).then(function() {
+	db.none('UPDATE users SET status = $1 WHERE id = $2', [req.body.status, parseInt(req.params.id)]).then(function() {
 		res.status(200).json({
 			status: 'success',
 			message: 'Updated the status of the user'
@@ -60,7 +60,7 @@ function updateStatus(req, res, next) {
 
 // Update the time at which a user will become inactive
 function updateTime(req, res, next) {
-	db.none('UPDATE users SET free_until=$1 WHERE id=$2', [req.body.freeUntil, parseInt(req.params.id)]).then(function() {
+	db.none('UPDATE users SET free_until = $1 WHERE id = $2', [req.body.freeUntil, parseInt(req.params.id)]).then(function() {
 		res.status(200).json({
 			status: 'success',
 			message: 'Updated the time at which the user will become inactive'
@@ -72,7 +72,7 @@ function updateTime(req, res, next) {
 
 // Enable or disable the user's timer
 function toggleTimer(req, res, next) {
-	db.none('UPDATE users SET timer_enabled=$1 WHERE id=$2', [req.body.timerEnabled, parseInt(req.params.id)]).then(function() {
+	db.none('UPDATE users SET timer_enabled = $1 WHERE id = $2', [req.body.timerEnabled, parseInt(req.params.id)]).then(function() {
 		res.status(200).json({
 			status: 'success',
 			message: 'Toggled the timer of the user'
