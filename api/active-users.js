@@ -19,6 +19,17 @@ var db = pgp({
 });
 
 // QUERY FUNCTIONS
+function addUser(req, res, next) {
+	db.none('INSERT INTO active_users(id, latitude, longitude)' + 'values(${id}, ${latitude}, ${longitude})', req.body).then(function() {
+		res.status(200).json({
+			status: 'success',
+			message: 'Added user to active users list'
+		});
+	}).catch(function(err) {
+		return next(err);
+	});
+};
+
 function getActiveUser(req, res, next) {
 	db.one('SELECT * FROM active_users WHERE id = $1', parseInt(req.params.id)).then(function(data) {
 		res.status(200).json({
@@ -68,6 +79,7 @@ function removeActiveUser(req, res, next) {
 
 // Export all functions
 module.exports = {
+	addUser: addUser,
 	getActiveUser: getActiveUser,
 	getActiveFriends: getActiveFriends,
 	updateLocation: updateLocation,

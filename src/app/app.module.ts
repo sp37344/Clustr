@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { Configuration } from './app.config';
 
 import { GoogleMaps } from '@ionic-native/google-maps';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
@@ -50,6 +51,7 @@ import { FriendsPage } from '../pages/friends/friends';
     HttpModule,
     Configuration,
     GoogleMaps,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

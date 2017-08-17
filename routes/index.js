@@ -19,6 +19,7 @@ router.put('/api/clustr/activities/:id', activitiesDb.editActivity);
 router.delete('/api/clustr/activities/:id', activitiesDb.deleteActivity);
 
 // Active Users API
+router.post('/api/clustr/active-users', activeUsersDb.addUser);
 router.get('/api/clustr/active-users/:id', activeUsersDb.getActiveUser);
 router.get('/api/clustr/active-users/friends/:friends', activeUsersDb.getActiveFriends);
 router.put('/api/clustr/active-users/:id/location', activeUsersDb.updateLocation);

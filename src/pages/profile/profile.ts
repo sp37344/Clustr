@@ -5,6 +5,7 @@ import { Configuration } from '../../app/app.config';
 import { Events } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { EditActivitiesPage } from '../edit-activities/edit-activities';
 
@@ -74,7 +75,7 @@ export class ProfilePage {
 	private userId = 1;
 
 	// Constructor
-	constructor(private _app : App, private _http : Http, private _configuration : Configuration, private _events : Events) {
+	constructor(private _app : App, private _http : Http, private _configuration : Configuration, private _events : Events, private _geolocation : Geolocation) {
 		// Update headers
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -114,6 +115,19 @@ export class ProfilePage {
 					this.isInvisible = true;
 			}
 
+			// Get location if the user is active (available or busy)
+			if (this.user['status'] == 'Available' || this.user['status'] == 'Busy') {
+				this._http.get(this._configuration.apiUrl + 'active-users/' + this.userId).map(res => res.json()).subscribe(res => {
+					console.log('Fire');
+				}, err => {
+					// Check if an Error 500 is shown, indicating that there is no requested user in the database
+					if (err.status == 500) {
+						// Add the user to the database with the geographical coordinates
+						this.addUser();
+					}
+				});
+			}
+
 			// Show the enable or disable timer button depending on whether the timer is enabled or disabled
 			if (this.user['timerEnabled']) {
 				// Show the Enable Timer button
@@ -130,6 +144,25 @@ export class ProfilePage {
 		// Get the user's activities
 		this.getActivities();
 	}
+
+	// Add user to active users list
+	addUser() {
+		// Get geographical coordinates of the user
+		this._geolocation.getCurrentPosition().then(location => {
+			// Create an object for the user to add into the database
+			var body = {
+				id: this.userId,
+				latitude: location.coords.latitude,
+				longitude: location.coords.longitude
+			};
+
+			// Add the user to the active users database using a POST function
+			this._http.post(this._configuration.apiUrl + 'active-users', body, {headers : this.headers}).map(res => res.json()).subscribe(res => {
+				// Print success message
+				console.log(res);
+			});
+		});
+	};
 
 	// Show status Modal, where user is able to set status to available, busy, or invisible
 	showStatusModal() {
