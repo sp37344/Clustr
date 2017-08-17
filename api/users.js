@@ -10,8 +10,8 @@ var localhost = 'http://192.168.42.154';
 
 var pgp = require('pg-promise')(options);
 var db = pgp({
-	// host: 'localhost',
-	host: '192.168.42.154',
+	host: 'localhost',
+	// host: '192.168.42.154',
 	port: 5432,
 	database: 'clustr',
 	user: 'postgres',
@@ -35,8 +35,7 @@ function getAllUsers(req, res, next) {
 
 // Get the user corresponding to a Clustr id
 function getUser(req, res, next) {
-	var userId = req.params.id;
-	db.one('SELECT * FROM users WHERE id = $1', userId).then(function(data) {
+	db.one('SELECT * FROM users WHERE id = $1', parseInt(req.params.id)).then(function(data) {
 		res.status(200).json({
 			status: 'success',
 			data: data,
