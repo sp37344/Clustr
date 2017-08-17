@@ -22,8 +22,7 @@ var db = pgp({
 
 // Get all the activities attributed to a single user
 function getAllActivities(req, res, next) {
-	var userId = parseInt(req.params.id);
-	db.any('SELECT * FROM activities WHERE user_id = $1', userId).then(function(data) {
+	db.any('SELECT * FROM activities WHERE user_id = $1', parseInt(req.params.id)).then(function(data) {
 		res.status(200).json({
 			status: 'success',
 			data: data,
@@ -60,8 +59,7 @@ function editActivity(req, res, next) {
 
 // Delete an activity from a user's suggested activities list
 function deleteActivity(req, res, next) {
-	var activityId = parseInt(req.params.id);
-	db.result('DELETE FROM activities WHERE id = $1', activityId).then(function(result) {
+	db.result('DELETE FROM activities WHERE id = $1', parseInt(req.params.id)).then(function(result) {
 		res.status(200).json({
 			status: 'success',
 			message: `Removed ${result.rowCount} activity`
