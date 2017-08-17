@@ -43,12 +43,21 @@ function getActiveFriends(req, res, next) {
 	});
 };
 
-// function updateLocation(req, res, next) {
-// 	db.none('UPDATE active_users SET latitude = $1, longitude = $2 WHERE id=$3', parseFloat(req.body.latitude), req.body.longitude, )
-// }
+function updateLocation(req, res, next) {
+	db.none('UPDATE active_users SET latitude = $1, longitude = $2 WHERE id=$3', [parseFloat(req.body.latitude), parseFloat(req.body.longitude), parseInt(req.params.id)]).then(function(data) {
+		res.status(200).json({
+			status: 'success',
+			data: data,
+			message: 'Updated location of the user'
+		});
+	}).catch(function(err) {
+		return next(err);
+	});
+};
 
 // Export all functions
 module.exports = {
 	getActiveUser: getActiveUser,
-	getActiveFriends: getActiveFriends
+	getActiveFriends: getActiveFriends,
+	updateLocation: updateLocation
 };
