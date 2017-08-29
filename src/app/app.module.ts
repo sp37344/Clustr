@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { Configuration } from './app.config';
 import { Facebook } from '@ionic-native/facebook';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -52,7 +53,8 @@ import { FriendsPage } from '../pages/friends/friends';
     HttpModule,
     Configuration,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Facebook
+    Facebook, 
+    NativeStorage
   ]
 })
 export class AppModule {}

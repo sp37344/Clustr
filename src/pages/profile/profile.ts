@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { App } from 'ionic-angular';
+import { App, NavController } from 'ionic-angular';
+import { Facebook } from '@ionic-native/facebook';
+import { NativeStorage } from '@ionic-native/native-storage';
 import { Http, Headers } from '@angular/http';
 import { Configuration } from '../../app/app.config';
 import { Events } from 'ionic-angular';
@@ -7,6 +9,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { EditActivitiesPage } from '../edit-activities/edit-activities';
+import { LoginPage } from '../login/login';
 
 @Component({
 	selector: 'page-profile',
@@ -71,7 +74,15 @@ export class ProfilePage {
 	private userId = 1;
 
 	// Constructor
-	constructor(private _app : App, private _http : Http, private _configuration : Configuration, private _events : Events) {
+	constructor(
+		private _app : App, 
+		private _http : Http, 
+		private _configuration : Configuration, 
+		private _events : Events,
+		public navCtrl: NavController,
+  		public facebook: Facebook,
+  		public nativeStorage: NativeStorage
+  		) {
 		// Update headers
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -545,5 +556,18 @@ export class ProfilePage {
 	// Hide modals on the back key down, overriding the default behavior to quit the app
 	onBackKeyDown(event) {
 		// Do something
+	};
+
+	Logout() {
+		var nav = this.navCtrl;
+		let env = this;
+		this.facebook.logout()
+		.then(function(response) {
+			//user logged out so we will remove him from the NativeStorage
+			env.nativeStorage.remove('user');
+			nav.push(LoginPage);
+		}, function(error){
+			console.log(error);
+		});
 	};
 }
