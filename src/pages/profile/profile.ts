@@ -558,7 +558,7 @@ export class ProfilePage {
 		// Do something
 	};
 
-	Logout() {
+	logout() {
 		var nav = this.navCtrl;
 		let env = this;
 		this.facebook.logout()

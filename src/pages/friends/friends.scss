@@ -1,3 +1,45 @@
+// @import "../profile/profile.scss";
+
 page-friends {
-	
+
+	// imported from profile.scss
+	.profile__header {
+		background-color: #e2e2e2;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 15px 25px 5px 25px;
+	}
+
+	.profile__header__text {
+		width: 60%;
+		float: left;
+	}
+
+	.profile__header__text__logo-text {
+		font-family: "Capriola";
+		color: map-get($colors, primary);
+		display: inline-block;
+	}
+
+	.profile__header__text__logo-img {
+		display: inline-block;
+		width: 25px;
+		position: relative;
+		transform: translateY(5px);
+	}
+
+	.profile__header__text__name {
+		color: map-get($colors, mid);
+		font-size: 20px;
+		margin-top: -12px;
+		font-weight: bold;
+	}
+
+	// friends scss 
+	.friends__body__label {
+		font-family: "Capriola";
+		font-size: 20px;
+	}
+
 }
